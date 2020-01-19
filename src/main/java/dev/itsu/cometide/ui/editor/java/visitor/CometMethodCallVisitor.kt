@@ -91,8 +91,8 @@ class CometMethodCallVisitor(val editorImpl: JavaEditorImpl) : VoidVisitorAdapte
             }
 
             if (it.name.begin.isPresent) {
-                val nameBegin = n.name.begin.get()
-                val nameLength = n.nameAsString.length
+                val nameBegin = it.name.begin.get()
+                val nameLength = it.nameAsString.length
                 GlobalScope.launch(Dispatchers.JavaFx) {
                     editorImpl.codeArea.setStyle(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("method-define-variable-name"))
                 }
