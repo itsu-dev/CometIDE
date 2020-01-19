@@ -1,0 +1,32 @@
+#java .keyword {
+    -fx-fill: #EC407A;
+    -fx-font-style: italic;
+}
+
+#java .semicolon {
+    -fx-font-weight: bold;
+}
+
+#java .paren {
+    -fx-fill: #FFB74D;
+    -fx-font-weight: bold;
+}
+
+#java .bracket {
+    -fx-fill: #673AB7;
+    -fx-font-weight: bold;
+}
+
+#java .brace {
+    -fx-fill: #29B6F6;
+    -fx-font-weight: bold;
+}
+
+#java .string {
+    -fx-fill: #8BC34A;
+}
+
+.comment {
+    -fx-fill: #9E9E9E;
+    -fx-font-style: italic;
+}

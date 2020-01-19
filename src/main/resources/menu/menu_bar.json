@@ -1,0 +1,73 @@
+[
+  {
+    "name": "menubar.file",
+    "items": [
+      {
+        "name": "menubar.file.new",
+        "icon": "img/icon/icon_directory_new.png",
+        "items": [
+          {
+            "name": "menubar.file.new.project",
+            "icon": "img/icon/icon_directory_project.png"
+          },
+          {
+            "separator": "true"
+          },
+          {
+            "name": "menubar.file.new.directory",
+            "icon": "img/icon/icon_directory.png"
+          },
+          {
+            "name": "menubar.file.new.file",
+            "icon": "img/icon/icon_file.png"
+          }
+        ]
+      },
+      {
+        "name": "menubar.file.open_project",
+        "icon": ""
+      },
+      {
+        "name": "menubar.file.close_project",
+        "icon": ""
+      },
+      {
+        "name": "menubar.file.project_setting",
+        "icon": ""
+      },
+      {
+        "name": "menubar.file.setting",
+        "icon": "img/icon/icon_setting.png"
+      }
+    ]
+  },
+  {
+    "name": "menubar.edit",
+    "items": [
+      {
+        "name": "menubar.edit.undo",
+        "icon": ""
+      },
+      {
+        "name": "menubar.edit.redo",
+        "icon": ""
+      },
+      {
+        "name": "menubar.edit.copy",
+        "icon": ""
+      },
+      {
+        "name": "menubar.edit.paste",
+        "icon": ""
+      },
+      {
+        "name": "menubar.edit.find",
+        "icon": ""
+      },
+      {
+        "name": "menubar.edit.replace",
+        "icon": ""
+      }
+    ]
+  }
+]
