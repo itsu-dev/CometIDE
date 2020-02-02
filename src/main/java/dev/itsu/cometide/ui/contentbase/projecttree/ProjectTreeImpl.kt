@@ -1,6 +1,5 @@
 package dev.itsu.cometide.ui.contentbase.projecttree
 
-import dev.itsu.cometide.data.RuntimeData
 import dev.itsu.cometide.model.TreeItemData
 import javafx.scene.Node
 import javafx.scene.Scene
@@ -14,12 +13,14 @@ class ProjectTreeImpl : IProjectTree.UI {
     private val treeView = TreeView<TreeItemData>()
 
     init {
-        treeView.selectionModel.selectedItemProperty().addListener { observable, oldValue, newValue -> presenter.onItemSelect(newValue.value) }
+        treeView.selectionModel.selectedItemProperty().addListener { _, _, newValue -> if (newValue != null) presenter.onItemSelect(newValue.value) }
         treeView.cellFactory = ProjectTreeCellFactory()
         treeView.setOnMouseClicked {
-            if (it.button == MouseButton.SECONDARY) {
-                presenter.onRightClick(it, treeView.selectionModel.selectedItem)
-                return@setOnMouseClicked
+            when (it.button) {
+                MouseButton.SECONDARY -> {
+                    presenter.onRightClick(it, treeView.selectionModel.selectedItem)
+                    return@setOnMouseClicked
+                }
             }
 
             if (it.clickCount == 2) {

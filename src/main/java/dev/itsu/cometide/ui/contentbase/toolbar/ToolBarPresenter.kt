@@ -6,4 +6,15 @@ class ToolBarPresenter(val toolBarImpl: ToolBarImpl) : IToolBar.Presenter {
 
     override fun reload(treeItemData: TreeItemData) = toolBarImpl.getPathHolder().reload(treeItemData)
 
+    override fun onScreenShotButtonClicked() {
+
+    }
+
+    override fun onFindButtonClicked() {
+
+    }
+
+    override fun onProjectSettingButtonClicked() {
+
+    }
 }

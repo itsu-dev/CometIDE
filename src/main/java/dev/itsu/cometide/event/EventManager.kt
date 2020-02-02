@@ -2,9 +2,9 @@ package dev.itsu.cometide.event
 
 import dev.itsu.cometide.event.events.Event
 import dev.itsu.cometide.event.events.EventHandler
+import dev.itsu.cometide.event.internal.EditMenuListener
+import dev.itsu.cometide.event.internal.FileMenuListener
 import dev.itsu.cometide.event.internal.UIListener
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 class EventManager {
 
@@ -33,8 +33,10 @@ class EventManager {
         }
     }
 
-    fun registerInternalEvents() {
+    private fun registerInternalEvents() {
         registerEvent(UIListener::class.java)
+        registerEvent(EditMenuListener::class.java)
+        registerEvent(FileMenuListener::class.java)
     }
 
 }

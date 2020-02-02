@@ -1,12 +1,15 @@
 package dev.itsu.cometide.ui.contentbase
 
-import dev.itsu.cometide.data.RuntimeData
+import dev.itsu.cometide.data.ProjectData
+import dev.itsu.cometide.ui.contentbase.bottombar.BottomBarImpl
 import dev.itsu.cometide.ui.contentbase.projecttree.ProjectTreeImpl
 import dev.itsu.cometide.ui.contentbase.tabpane.TabPaneImpl
 import javafx.geometry.Orientation
 import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.control.SplitPane
+import javafx.scene.control.Tab
+import javafx.scene.layout.BorderPane
 import javafx.scene.layout.StackPane
 
 class ContentBaseImpl : IContentBase.UI {
@@ -15,10 +18,12 @@ class ContentBaseImpl : IContentBase.UI {
     private val vertical = SplitPane()
     private lateinit var left: StackPane
     private lateinit var right: StackPane
-    private val bottom = StackPane()
+    private lateinit var bottom: BorderPane
 
     private val projectTree = ProjectTreeImpl()
     private lateinit var editor: TabPaneImpl
+    private lateinit var actionTab: TabPaneImpl
+    private lateinit var bottomBar: BottomBarImpl
 
     init {
         vertical.setDividerPositions(0.2, 0.8)
@@ -36,7 +41,7 @@ class ContentBaseImpl : IContentBase.UI {
     }
 
     override fun createLeftPane() {
-        if (RuntimeData.getInstance().projectRoot != null) projectTree.reload(RuntimeData.getInstance().projectRoot!!)
+        if (!ProjectData.getInstance().project.isEmptyProject) projectTree.reload(ProjectData.getInstance().project.root)
         left = StackPane(projectTree.getContent())
     }
 
@@ -46,7 +51,14 @@ class ContentBaseImpl : IContentBase.UI {
     }
 
     override fun createBottomPane() {
+        actionTab = TabPaneImpl()
+        bottomBar = BottomBarImpl()
 
+        bottom = BorderPane()
+        bottom.center = actionTab.getContent()
+        bottom.bottom = bottomBar.getContent()
+
+        actionTab.addTab(Tab("Run"))
     }
 
     override fun onSceneCreated(scene: Scene) {
@@ -59,12 +71,10 @@ class ContentBaseImpl : IContentBase.UI {
 
     override fun getContent(): Node = vertical
 
-    override fun getLeftPane(): StackPane = left
-
-    override fun getRightPane(): StackPane = right
-
-    override fun getBottomPane(): StackPane = bottom
-
     override fun getEditorPane(): TabPaneImpl  = editor
+
+    override fun getBottomBar(): BottomBarImpl = bottomBar
+
+    override fun getProjectTree(): ProjectTreeImpl = projectTree
 
 }

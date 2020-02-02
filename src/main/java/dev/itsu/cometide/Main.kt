@@ -2,7 +2,7 @@ package dev.itsu.cometide
 
 import dev.itsu.cometide.data.EditorData
 import dev.itsu.cometide.data.EnvironmentSettings
-import dev.itsu.cometide.data.RuntimeData
+import dev.itsu.cometide.data.ProjectData
 import dev.itsu.cometide.data.Settings
 import dev.itsu.cometide.event.EventManager
 import dev.itsu.cometide.event.events.system.SoftwareShutdownEvent
@@ -43,6 +43,6 @@ private fun setUp() {
     Settings.getInstance().init()
     BaseLang.init(Settings.getInstance().language, Settings.getInstance().fallbackLanguage)
     EditorData.getInstance().init()
-    RuntimeData.getInstance().init()
+    ProjectData.getInstance().init()
     PluginManager.getInstance().loadPlugins(EnvironmentSettings.PLUGINS_DIRECTORY_PATH)
 }

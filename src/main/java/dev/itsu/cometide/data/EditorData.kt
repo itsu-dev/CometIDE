@@ -5,12 +5,14 @@ import dev.itsu.cometide.ui.contentbase.tabcontent.ITabContent
 import dev.itsu.cometide.ui.editor.java.JavaEditorImpl
 import dev.itsu.cometide.ui.editor.text.TextEditorImpl
 import dev.itsu.cometide.ui.contentbase.tabcontent.photograph.PhotoViewer
+import dev.itsu.cometide.ui.editor.AbstractEditor
 import java.io.File
 
 class EditorData {
 
     private val editors = mutableMapOf<String, Class<out ITabContent>>()
     private var initialized = false
+    var currentEditor: AbstractEditor? = null
 
     companion object {
         private var instance: EditorData? = null

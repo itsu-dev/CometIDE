@@ -22,9 +22,13 @@ class TabPaneImpl : ITabPane.UI {
         }
     }
 
-    override fun addTab(tab: TabImpl) {
+    override fun addTab(tab: Tab) {
         tabPane.tabs.add(tab)
-        setTab(tab.getName())
+        if (tab is TabImpl) {
+            setTab(tab.getName())
+        } else {
+            setTab(tab.text)
+        }
     }
 
     override fun setTab(name: String) {

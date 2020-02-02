@@ -2,6 +2,7 @@ package dev.itsu.cometide.ui.contentbase.toolbar.part.pathholder
 
 import dev.itsu.cometide.model.TreeItemData
 import javafx.geometry.NodeOrientation
+import javafx.geometry.Pos
 import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.layout.HBox
@@ -13,6 +14,7 @@ class PathHolderImpl : IPathHolder.UI {
 
     init {
         hBox.nodeOrientation = NodeOrientation.RIGHT_TO_LEFT
+        hBox.alignment = Pos.CENTER_RIGHT
     }
 
     override fun reload(treeItemData: TreeItemData) {

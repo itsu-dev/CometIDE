@@ -1,17 +1,22 @@
 package dev.itsu.cometide.ui.editor
 
+import dev.itsu.cometide.data.EditorData
 import dev.itsu.cometide.data.EnvironmentSettings
 import dev.itsu.cometide.data.Settings
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.UIManager
+import dev.itsu.cometide.ui.contentbase.bottombar.BottomBarImpl
 import dev.itsu.cometide.ui.contentbase.tabcontent.ITabContent
 import dev.itsu.cometide.util.IOUtils
 import javafx.application.Platform
+import javafx.beans.value.ChangeListener
 import javafx.concurrent.Task
+import javafx.event.EventHandler
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.LineNumberFactory
 import org.fxmisc.richtext.StyleClassedTextArea
+import org.fxmisc.richtext.event.MouseOverTextEvent
 import org.fxmisc.richtext.model.StyleSpans
 import org.reactfx.Subscription
 import java.io.File
@@ -29,6 +34,8 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
     init {
         codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea)
         codeArea.id = extension
+        codeArea.mouseOverTextDelay = Duration.ofSeconds(1)
+
         cleanupWhenDone = codeArea.multiPlainChanges()
                 .successionEnds(Duration.ofMillis(500))
                 .supplyTask<StyleSpans<Collection<String>>> { this.computeHighlightingAsync() }
@@ -51,6 +58,23 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
         } else {
             val url = AbstractEditor::class.java.classLoader.getResource("theme/dark/syntax/$extension.css")
             if (url != null) UIManager.getInstance().loadCSS(url.toExternalForm())
+        }
+
+        codeArea.caretPositionProperty().addListener { _, _, _ ->
+            val bottomBar = UIManager.getInstance().splitPane.getBottomBar()
+            bottomBar.setLocation(codeArea.currentParagraph, codeArea.caretColumn)
+        }
+
+        codeArea.focusedProperty().addListener { _ ->
+            EditorData.getInstance().currentEditor = this
+        }
+
+        codeArea.addEventHandler(MouseOverTextEvent.MOUSE_OVER_TEXT_BEGIN) {
+           onMouseOverTextStart(it)
+        }
+
+        codeArea.addEventHandler(MouseOverTextEvent.MOUSE_OVER_TEXT_END) {
+            onMouseOverTextEnd(it)
         }
 
         loadFile(treeItemData.path)
@@ -84,6 +108,14 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
 
     }
 
+    open fun onMouseOverTextStart(event: MouseOverTextEvent) {
+
+    }
+    open fun onMouseOverTextEnd(event: MouseOverTextEvent) {
+
+    }
+
+
     open fun onEditorClose() {
 
     }
@@ -100,5 +132,25 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
     private fun loadFile(path: String) {
         val thread = Thread(Runnable { Platform.runLater { codeArea.replaceText(IOUtils.readFileFromFile(File(path))) } })
         thread.start()
+    }
+
+    fun undo() {
+        codeArea.undo()
+    }
+
+    fun redo() {
+        codeArea.redo()
+    }
+
+    fun copy() {
+        codeArea.copy()
+    }
+
+    fun paste() {
+        codeArea.paste()
+    }
+
+    fun cut() {
+        codeArea.cut();
     }
 }

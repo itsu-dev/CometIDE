@@ -2,11 +2,16 @@ package dev.itsu.cometide.ui.editor.java
 
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.editor.AbstractEditor
+import dev.itsu.cometide.ui.editor.java.visitor.ErrorMarker
+import javafx.scene.control.Label
+import javafx.stage.Popup
 import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.StyleClassedTextArea
+import org.fxmisc.richtext.event.MouseOverTextEvent
 import org.fxmisc.richtext.model.StyleSpan
 import org.fxmisc.richtext.model.StyleSpans
 import org.fxmisc.richtext.model.StyleSpansBuilder
+import org.fxmisc.richtext.model.TwoDimensional
 import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.regex.Pattern
 
@@ -44,6 +49,15 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     )
 
     val highlightQueue = mutableListOf<StyleSpan<Collection<String>>>()
+    private val popup = Popup()
+    private val label = Label()
+
+    init {
+        popup.content.addAll(label)
+        popup.width = 200.0
+        label.style = "-fx-background-color: #37474F"
+        label.isWrapText = true
+    }
 
     override fun setUp(codeArea: StyleClassedTextArea) {
 
@@ -68,4 +82,21 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
         return spansBuilder.create()
     }
 
+    override fun onMouseOverTextStart(event: MouseOverTextEvent) {
+        ErrorMarker.problems.stream()
+                .filter {
+                    if (!it.location.isPresent) return@filter false
+                    val position = it.location.get().toRange().get().begin
+                    val mousePosition = codeArea.offsetToPosition(event.characterIndex, TwoDimensional.Bias.Forward)
+                    return@filter position.line - 1 == mousePosition.major && position.column - 1 == mousePosition.minor
+                }
+                .forEach {
+                    label.text = it.message
+                    popup.show(codeArea, event.screenPosition.x, event.screenPosition.y + 10)
+                }
+    }
+
+    override fun onMouseOverTextEnd(event: MouseOverTextEvent) {
+        popup.hide()
+    }
 }

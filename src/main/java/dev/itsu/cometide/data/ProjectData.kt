@@ -1,8 +1,6 @@
 package dev.itsu.cometide.data
 
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import dev.itsu.cometide.util.PropertyLoader
+import dev.itsu.cometide.model.Project
 import dev.itsu.cometide.util.XMLLoader
 import org.w3c.dom.Document
 import org.w3c.dom.Element
@@ -13,14 +11,9 @@ import java.lang.Exception
 import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
 
-class RuntimeData {
+class ProjectData {
 
-    var isEmptyProject = true
-    var projectRoot: String? = null
-    var projectName: String? = null
-    var openingFiles: LinkedList<String> = LinkedList()
-    var selectingFile: String? = null
-    var openingTab: Int = TAB_NOT_SELECTED
+    lateinit var project: Project
 
     companion object {
         const val TAB_NOT_SELECTED = -1
@@ -36,9 +29,9 @@ class RuntimeData {
         const val PROJECT_OPENING_FILES = "openingFiles"
         const val PROJECT_OPENING_TAB_INDEX = "tabIndex"
 
-        private var instance: RuntimeData? = null
+        private var instance: ProjectData? = null
         fun getInstance() = instance ?: synchronized(this) {
-            instance ?: RuntimeData().also { instance = it }
+            instance ?: ProjectData().also { instance = it }
         }
 
     }
@@ -54,6 +47,9 @@ class RuntimeData {
 
             val root = XMLLoader.load(file) ?: return
             val children = root.childNodes
+
+            project = Project.emptyProject()
+
             for (i in 0 until children.length) {
                 val parent = children.item(i)
                 if (parent.nodeType == Node.ELEMENT_NODE) {
@@ -77,14 +73,14 @@ class RuntimeData {
             if (node.nodeType == Node.ELEMENT_NODE) {
                 val element = node as Element
                 when (element.tagName) {
-                    PROJECT_ROOT -> projectRoot = element.textContent
-                    NAME -> projectName = element.textContent
-                    PROJECT_OPENING_TAB_INDEX -> openingTab = element.textContent.toInt()
+                    PROJECT_ROOT -> project.root = element.textContent
+                    NAME -> project.name = element.textContent
+                    PROJECT_OPENING_TAB_INDEX -> project.openingTab = element.textContent.toInt()
                     PROJECT_OPENING_FILES -> loadOpeningFiles(element)
                 }
             }
         }
-        isEmptyProject = false
+        project.isEmptyProject = false
     }
 
     private fun loadOpeningFiles(element: Element) {
@@ -92,7 +88,7 @@ class RuntimeData {
         for (i in 0 until nodeList.length) {
             val node = nodeList.item(i)
             if (node.nodeName == FILE && node.nodeType == Node.ELEMENT_NODE) {
-                openingFiles.add(node.textContent)
+                project.openingFiles.add(node.textContent)
             }
         }
     }
@@ -116,38 +112,30 @@ class RuntimeData {
         val previousSession = document.createElement(PREVIOUS_SESSION)
         project.appendChild(previousSession)
 
-        if (projectRoot != null) {
-            val rootDir = document.createElement(PROJECT_ROOT)
-            rootDir.textContent = projectRoot
-            previousSession.appendChild(rootDir)
-        }
+        val rootDir = document.createElement(PROJECT_ROOT)
+        rootDir.textContent = this.project.root
+        previousSession.appendChild(rootDir)
 
-        if (projectName != null) {
-            val name = document.createElement(NAME)
-            name.textContent = projectName
-            previousSession.appendChild(name)
-        }
+        val name = document.createElement(NAME)
+        name.textContent = this.project.name
+        previousSession.appendChild(name)
 
-        if (openingTab != TAB_NOT_SELECTED) {
-            val tabIndex = document.createElement(PROJECT_OPENING_TAB_INDEX)
-            tabIndex.textContent = openingTab.toString()
-            previousSession.appendChild(tabIndex)
-        }
+        val tabIndex = document.createElement(PROJECT_OPENING_TAB_INDEX)
+        tabIndex.textContent = this.project.openingTab.toString()
+        previousSession.appendChild(tabIndex)
 
-        if (openingFiles.size != 0) {
-            val openingFiles = document.createElement(PROJECT_OPENING_FILES)
-            this.openingFiles.forEach {
-                val file = document.createElement(FILE)
-                file.textContent = it
-                openingFiles.appendChild(file)
-            }
-            previousSession.appendChild(openingFiles)
+        val openingFiles = document.createElement(PROJECT_OPENING_FILES)
+        this.project.openingFiles.forEach {
+            val file = document.createElement(FILE)
+            file.textContent = it
+            openingFiles.appendChild(file)
         }
+        previousSession.appendChild(openingFiles)
     }
 
-    fun addOpeningFile(path: String) = openingFiles.add(path)
+    fun addOpeningFile(path: String) = project.openingFiles.add(path)
 
-    fun isOpening(path: String): Boolean = openingFiles.contains(path)
+    fun isOpening(path: String): Boolean = project.openingFiles.contains(path)
 
-    fun removeOpeningFile(path: String) = openingFiles.remove(path)
+    fun removeOpeningFile(path: String) = project.openingFiles.remove(path)
 }

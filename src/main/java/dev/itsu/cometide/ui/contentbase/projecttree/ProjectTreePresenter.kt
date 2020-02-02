@@ -1,8 +1,9 @@
 package dev.itsu.cometide.ui.contentbase.projecttree
 
-import dev.itsu.cometide.data.RuntimeData
+import dev.itsu.cometide.data.ProjectData
 import dev.itsu.cometide.event.EventManager
 import dev.itsu.cometide.event.events.ui.ProjectTreeItemDoubleClickedEvent
+import dev.itsu.cometide.event.events.ui.ProjectTreeItemLeftClickedEvent
 import dev.itsu.cometide.event.events.ui.ProjectTreeItemRightClickedEvent
 import dev.itsu.cometide.event.events.ui.ProjectTreeItemSelectedEvent
 import dev.itsu.cometide.model.TreeItemData
@@ -50,14 +51,14 @@ class ProjectTreePresenter(val projectTreeImpl: ProjectTreeImpl) : IProjectTree.
 
     override fun onItemSelect(newValue: TreeItemData) {
         val treeItemData = newValue
-        RuntimeData.getInstance().selectingFile = treeItemData.path
+        ProjectData.getInstance().project.selectingFile = treeItemData.path
         UIManager.getInstance().toolBar.reload(newValue)
         EventManager.getInstance().callEvent(ProjectTreeItemSelectedEvent(newValue))
     }
 
     override fun onDoubleClick(mouseEvent: MouseEvent, selectedItem: TreeItem<TreeItemData>) {
         if (selectedItem.value.type != TreeItemData.Type.GROUP) {
-            if (!RuntimeData.getInstance().isOpening(selectedItem.value.path)) {
+            if (!ProjectData.getInstance().isOpening(selectedItem.value.path)) {
                 UIManager.getInstance().openFile(selectedItem.value)
             } else {
                 UIManager.getInstance().splitPane.getEditorPane().setTab(selectedItem.value.name)

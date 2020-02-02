@@ -1,6 +1,6 @@
 package dev.itsu.cometide.event.internal
 
-import dev.itsu.cometide.data.RuntimeData
+import dev.itsu.cometide.data.ProjectData
 import dev.itsu.cometide.data.Settings
 import dev.itsu.cometide.event.EventListener
 import dev.itsu.cometide.event.events.*
@@ -22,7 +22,7 @@ class UIListener : EventListener {
                 (it.getTabContent() as AbstractEditor).onClose()
             }
         }
-        RuntimeData.getInstance().save()
+        ProjectData.getInstance().save()
         Settings.getInstance().save()
 
         exitProcess(0)

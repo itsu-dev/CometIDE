@@ -8,7 +8,7 @@ import javafx.scene.control.Tab
 interface ITabPane {
 
     interface UI : UIInterface.UI {
-        fun addTab(tab: TabImpl)
+        fun addTab(tab: Tab)
         fun setTab(name: String)
         fun selectTab(index: Int)
         fun getTabs(): ObservableList<Tab>

@@ -18,29 +18,78 @@
             "icon": "img/icon/icon_directory.png"
           },
           {
+            "name": "menubar.file.new.package",
+            "icon": "img/icon/icon_directory_src.png"
+          },
+          {
+            "separator": "true"
+          },
+          {
             "name": "menubar.file.new.file",
             "icon": "img/icon/icon_file.png"
+          },
+          {
+            "name": "menubar.file.new.java_class",
+            "icon": "img/icon/icon_code.png"
+          },
+          {
+            "name": "menubar.file.new.javascript",
+            "icon": "img/icon/icon_code.png"
+          },
+          {
+            "name": "menubar.file.new.json",
+            "icon": "img/icon/icon_code.png"
+          },
+          {
+            "name": "menubar.file.new.markdown",
+            "icon": "img/icon/icon_code.png",
+            "items":[
+              {
+                "name": "menubar.file.new.markdown.normal",
+                "icon": "img/icon/icon_code.png"
+              },
+              {
+                "name": "menubar.file.new.markdown.readme",
+                "icon": "img/icon/icon_code.png"
+              }
+            ]
+          },
+          {
+            "name": "menubar.file.new.html",
+            "icon": "img/icon/icon_code.png"
+          },
+          {
+            "name": "menubar.file.new.xml",
+            "icon": "img/icon/icon_code.png"
+          },
+          {
+            "name": "menubar.file.new.properties",
+            "icon": "img/icon/icon_code.png"
           }
         ]
       },
       {
         "name": "menubar.file.open_project",
-        "icon": ""
+        "icon": "img/icon/icon_directory_project.png"
       },
       {
         "name": "menubar.file.close_project",
         "icon": ""
       },
       {
-        "name": "menubar.file.project_setting",
-        "icon": ""
+        "separator": "true"
       },
       {
-        "name": "menubar.file.setting",
+        "name": "menubar.file.project_setting",
+        "icon": "img/icon/icon_project_setting.png"
+      },
+      {
+        "name": "menubar.file.environment_setting",
         "icon": "img/icon/icon_setting.png"
       }
     ]
   },
+
   {
     "name": "menubar.edit",
     "items": [
@@ -50,19 +99,26 @@
       },
       {
         "name": "menubar.edit.redo",
-        "icon": ""
+        "icon": "img/icon/icon_redo.png"
+      },
+      {
+        "separator": "true"
       },
       {
         "name": "menubar.edit.copy",
-        "icon": ""
+        "icon": "img/icon/icon_copy.png"
       },
       {
         "name": "menubar.edit.paste",
         "icon": ""
       },
       {
-        "name": "menubar.edit.find",
+        "name": "menubar.edit.cut",
         "icon": ""
+      },
+      {
+        "name": "menubar.edit.find",
+        "icon": "img/icon/icon_find.png"
       },
       {
         "name": "menubar.edit.replace",

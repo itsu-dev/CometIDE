@@ -1,4 +1,4 @@
-package dev.itsu.cometide.ui.contentbase.toolbar.part.pathholder.part
+package dev.itsu.cometide.ui.contentbase.toolbar.part.pathholder
 
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.util.IconCreator

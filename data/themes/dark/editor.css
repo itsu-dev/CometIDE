@@ -7,7 +7,7 @@
 
 .styled-text-area .text {
     -fx-fill: #979FAD;
-    -fx-font-family: Cica-Regular;
+    -fx-font-family: "Cascadia Code";
 }
 
 .styled-text-area .paragraph-box .selection {

@@ -1,7 +1,7 @@
 package dev.itsu.cometide.ui
 
 import dev.itsu.cometide.data.EnvironmentSettings
-import dev.itsu.cometide.data.RuntimeData
+import dev.itsu.cometide.data.ProjectData
 import dev.itsu.cometide.data.Settings
 import dev.itsu.cometide.event.EventManager
 import dev.itsu.cometide.event.events.ui.MainStageClosedEvent
@@ -87,7 +87,7 @@ class UIManager {
 
     fun openFile(treeItemData: TreeItemData) {
         splitPane.getEditorPane().addTab(TabImpl(treeItemData))
-        if (!RuntimeData.getInstance().isOpening(treeItemData.path)) RuntimeData.getInstance().addOpeningFile(treeItemData.path)
+        if (!ProjectData.getInstance().isOpening(treeItemData.path)) ProjectData.getInstance().addOpeningFile(treeItemData.path)
         EventManager.getInstance().callEvent(TabPaneTabOpenedEvent(treeItemData))
     }
 

@@ -14,7 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
 
-class CometMethodCallVisitor(val editorImpl: JavaEditorImpl) : VoidVisitorAdapter<String>() {
+class GrammerMarker(val editorImpl: JavaEditorImpl) : VoidVisitorAdapter<String>() {
 
     override fun visit(n: VariableDeclarationExpr, arg: String) {
         if (n.begin.isPresent) {
