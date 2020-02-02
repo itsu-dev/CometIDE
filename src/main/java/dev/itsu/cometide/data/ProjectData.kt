@@ -11,32 +11,24 @@ import java.lang.Exception
 import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
 
-class ProjectData {
+object ProjectData {
 
     lateinit var project: Project
 
-    companion object {
-        const val TAB_NOT_SELECTED = -1
+    const val TAB_NOT_SELECTED = -1
 
-        const val NAME = "name"
-        const val FILE = "file"
-        const val TIME_STAMP = "timestamp"
+    const val NAME = "name"
+    const val FILE = "file"
+    const val TIME_STAMP = "timestamp"
 
-        // previousSession
-        const val PROJECT = "project"
-        const val PREVIOUS_SESSION = "previousSession"
-        const val PROJECT_ROOT = "rootDir"
-        const val PROJECT_OPENING_FILES = "openingFiles"
-        const val PROJECT_OPENING_TAB_INDEX = "tabIndex"
+    // previousSession
+    const val PROJECT = "project"
+    const val PREVIOUS_SESSION = "previousSession"
+    const val PROJECT_ROOT = "rootDir"
+    const val PROJECT_OPENING_FILES = "openingFiles"
+    const val PROJECT_OPENING_TAB_INDEX = "tabIndex"
 
-        private var instance: ProjectData? = null
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: ProjectData().also { instance = it }
-        }
-
-    }
-
-    fun init() {
+    init {
         reload()
     }
 

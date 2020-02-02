@@ -12,7 +12,7 @@ class TabImpl(val treeItemData: TreeItemData) : ITab.UI, Tab() {
     private val presenter = TabPresenter(this)
 
     private val tab = Tab()
-    private val tabContent: ITabContent = EditorData.getInstance().getTabContent(treeItemData)!!
+    private val tabContent: ITabContent = EditorData.getTabContent(treeItemData)!!
 
     init {
         this.text = treeItemData.name

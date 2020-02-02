@@ -22,8 +22,8 @@ class UIListener : EventListener {
                 (it.getTabContent() as AbstractEditor).onClose()
             }
         }
-        ProjectData.getInstance().save()
-        Settings.getInstance().save()
+        ProjectData.save()
+        Settings.save()
 
         exitProcess(0)
     }

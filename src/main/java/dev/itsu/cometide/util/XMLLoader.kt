@@ -23,7 +23,7 @@ object XMLLoader {
             val transformer = TransformerFactory.newInstance().newTransformer()
             transformer.setOutputProperty(OutputKeys.INDENT, "yes")
             transformer.setOutputProperty(OutputPropertiesFactory.S_KEY_INDENT_AMOUNT, "4")
-            transformer.setOutputProperty(OutputKeys.ENCODING, Settings.getInstance().defaultEncode)
+            transformer.setOutputProperty(OutputKeys.ENCODING, Settings.defaultEncode)
             transformer.transform(DOMSource(document), StreamResult(outputStream))
         } catch (e: Exception) {
             e.printStackTrace()

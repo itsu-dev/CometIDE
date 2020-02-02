@@ -23,7 +23,7 @@ class BottomBarImpl : IBottomBar.UI {
 
     private val right = HBox()
     private val locationLabel = Label("")
-    private val encodingLabel = Label(Settings.getInstance().defaultEncode)
+    private val encodingLabel = Label(Settings.defaultEncode)
 
     init {
         root.alignment = Pos.CENTER

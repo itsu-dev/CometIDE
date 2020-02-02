@@ -51,14 +51,14 @@ class ProjectTreePresenter(val projectTreeImpl: ProjectTreeImpl) : IProjectTree.
 
     override fun onItemSelect(newValue: TreeItemData) {
         val treeItemData = newValue
-        ProjectData.getInstance().project.selectingFile = treeItemData.path
+        ProjectData.project.selectingFile = treeItemData.path
         UIManager.getInstance().toolBar.reload(newValue)
         EventManager.getInstance().callEvent(ProjectTreeItemSelectedEvent(newValue))
     }
 
     override fun onDoubleClick(mouseEvent: MouseEvent, selectedItem: TreeItem<TreeItemData>) {
         if (selectedItem.value.type != TreeItemData.Type.GROUP) {
-            if (!ProjectData.getInstance().isOpening(selectedItem.value.path)) {
+            if (!ProjectData.isOpening(selectedItem.value.path)) {
                 UIManager.getInstance().openFile(selectedItem.value)
             } else {
                 UIManager.getInstance().splitPane.getEditorPane().setTab(selectedItem.value.name)

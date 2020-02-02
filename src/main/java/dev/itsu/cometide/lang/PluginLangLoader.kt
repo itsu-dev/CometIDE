@@ -25,7 +25,7 @@ object PluginLangLoader {
                         .toList()
                         .first()
                 properties.load(BufferedReader(InputStreamReader(jar.getInputStream(entry)
-                        ?: return@forEach, Settings.getInstance().defaultEncode)))
+                        ?: return@forEach, Settings.defaultEncode)))
                 properties.forEach { (key, value) ->
                     BaseLang.strings[key] = value
                 }

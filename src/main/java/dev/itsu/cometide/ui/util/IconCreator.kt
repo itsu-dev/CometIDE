@@ -57,7 +57,7 @@ object IconCreator {
         if (path.contains(":")) {
             val split = path.split(":")
             split[0]
-            return Image((PluginManager.getInstance().plugins[split[0]]
+            return Image((PluginManager.plugins[split[0]]
                     ?: return Image(clazz.getResourceAsStream(path))).classLoader.getResourceAsStream(split[1]))
         } else {
             return Image(clazz.getResourceAsStream(path))

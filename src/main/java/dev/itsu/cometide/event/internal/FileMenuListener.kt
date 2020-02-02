@@ -19,17 +19,17 @@ class FileMenuListener : EventListener {
     fun onMenuClicked(event: MenuItemClickedEvent) {
         when(event.id) {
             "menubar.file.new.directory" -> {
-                var file = File(ProjectData.getInstance().project.selectingFile)
+                var file = File(ProjectData.project.selectingFile)
                 if (!file.exists()) return
                 if (!file.isDirectory) file = file.parentFile
                 if (!file.exists()) return
 
                 File("${file.absolutePath}${File.separator}NewDir").mkdir()
-                UIManager.getInstance().splitPane.getProjectTree().reload(ProjectData.getInstance().project.root)
+                UIManager.getInstance().splitPane.getProjectTree().reload(ProjectData.project.root)
             }
 
             "actionbar.screenshot" -> {
-                val image = (EditorData.getInstance().currentEditor ?: return).codeArea?.snapshot(SnapshotParameters(), null)
+                val image = (EditorData.currentEditor ?: return).codeArea.snapshot(SnapshotParameters(), null)
                 ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", File("C:\\Users\\itsu\\Desktop\\${System.currentTimeMillis()}.png"))
             }
         }

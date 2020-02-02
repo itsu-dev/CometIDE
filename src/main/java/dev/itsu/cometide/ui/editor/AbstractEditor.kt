@@ -52,7 +52,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
 
         setUp(codeArea)
 
-        val css = File(EnvironmentSettings.THEMES_DIRECTORY_PATH + "/" + Settings.getInstance().theme + "/syntax/" + extension + ".css")
+        val css = File(EnvironmentSettings.THEMES_DIRECTORY_PATH + "/" + Settings.theme + "/syntax/" + extension + ".css")
         if (css.exists()) {
             UIManager.getInstance().loadCSS(css.toURI().toString())
         } else {
@@ -66,7 +66,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
         }
 
         codeArea.focusedProperty().addListener { _ ->
-            EditorData.getInstance().currentEditor = this
+            EditorData.currentEditor = this
         }
 
         codeArea.addEventHandler(MouseOverTextEvent.MOUSE_OVER_TEXT_BEGIN) {

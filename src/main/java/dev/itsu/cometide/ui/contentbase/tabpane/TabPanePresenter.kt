@@ -13,29 +13,28 @@ import java.io.File
 class TabPanePresenter(val tabPaneImpl: TabPaneImpl) : ITabPane.Presenter {
 
     override fun loadPreviousFiles() {
-        ProjectData.getInstance().project.openingFiles.forEach {
+        ProjectData.project.openingFiles.forEach {
             val file = File(it)
             if (file.exists()) {
                 UIManager.getInstance().openFile(TreeItemData(file.name, file.absolutePath, false, TreeItemData.Type.ITEM))
             }
         }
-        if (ProjectData.getInstance().project.openingTab != ProjectData.TAB_NOT_SELECTED) {
-            tabPaneImpl.selectTab(ProjectData.getInstance().project.openingTab)//TODO this does not work.
+        if (ProjectData.project.openingTab != ProjectData.TAB_NOT_SELECTED) {
+            tabPaneImpl.selectTab(ProjectData.project.openingTab)//TODO this does not work.
         }
     }
 
     override fun onSelectTab(tab: TabImpl, index: Int) {
-        ProjectData.getInstance().project.openingTab = index
+        ProjectData.project.openingTab = index
         UIManager.getInstance().toolBar.reload(tab.treeItemData)
 
-        val runtimeData = ProjectData.getInstance()
-        UIManager.getInstance().setTitle("${runtimeData.project.name} [${runtimeData.project.root}] - ${TextUtils.shortenProjectPath(tab.treeItemData.path)} - CometIDE")
+        UIManager.getInstance().setTitle("${ProjectData.project.name} [${ProjectData.project.root}] - ${TextUtils.shortenProjectPath(tab.treeItemData.path)} - CometIDE")
 
         EventManager.getInstance().callEvent(TabPaneTabSelectedEvent(tab.treeItemData, index))
     }
 
     override fun onCloseTab(tab: TabImpl) {
-        ProjectData.getInstance().removeOpeningFile(tab.treeItemData.path)
+        ProjectData.removeOpeningFile(tab.treeItemData.path)
         EventManager.getInstance().callEvent(TabPaneTabClosedEvent(tab.treeItemData))
     }
 

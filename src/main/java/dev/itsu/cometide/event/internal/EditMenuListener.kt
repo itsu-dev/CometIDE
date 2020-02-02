@@ -10,11 +10,11 @@ class EditMenuListener : EventListener {
     @EventHandler
     fun onMenuClicked(event: MenuItemClickedEvent) {
         when(event.id) {
-            "menubar.edit.undo" -> EditorData.getInstance().currentEditor?.undo()
-            "menubar.edit.redo" -> EditorData.getInstance().currentEditor?.redo()
-            "menubar.edit.copy" -> EditorData.getInstance().currentEditor?.copy()
-            "menubar.edit.paste" -> EditorData.getInstance().currentEditor?.paste()
-            "menubar.edit.cut" -> EditorData.getInstance().currentEditor?.cut()
+            "menubar.edit.undo" -> EditorData.currentEditor?.undo()
+            "menubar.edit.redo" -> EditorData.currentEditor?.redo()
+            "menubar.edit.copy" -> EditorData.currentEditor?.copy()
+            "menubar.edit.paste" -> EditorData.currentEditor?.paste()
+            "menubar.edit.cut" -> EditorData.currentEditor?.cut()
         }
     }
 }

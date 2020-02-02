@@ -13,7 +13,7 @@ class PathHolderPresenter(val pathHolderImpl: PathHolderImpl) : IPathHolder.Pres
         pathHolderImpl.hBox.children.clear()
 
         var file = File(treeItemData.path)
-        val projectName = File(ProjectData.getInstance().project.root ?: "").name
+        val projectName = File(ProjectData.project.root ?: "").name
 
         while (true) {
             if (file.name == projectName) {

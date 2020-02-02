@@ -14,7 +14,7 @@ object EnvironmentSettings {
     const val THEMES_DEFAULT = THEMES_DIRECTORY_PATH + "dark"
     const val FALLBACK_LANGUAGE = "jpn"
 
-    fun init() {
+    init {
         val settings = File(SETTINGS_DIRECTORY_PATH)
         if (!settings.exists()) settings.mkdirs()
 

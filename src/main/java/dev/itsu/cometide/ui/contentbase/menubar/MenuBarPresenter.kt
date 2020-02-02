@@ -25,7 +25,7 @@ class MenuBarPresenter(val menuBarImpl: MenuBarImpl) : IMenuBar.Presenter {
         val typeToken = TypeToken.getParameterized(LinkedList::class.java, MenuData::class.java).type
         menusData.addAll(gson.fromJson(IOUtils.readFileFromProject("menu/menu_bar.json"), typeToken))
 
-        PluginManager.getInstance().plugins.values.forEach {
+        PluginManager.plugins.values.forEach {
             if (it.manifest.externalMenu != null) {
                 val data: LinkedList<MenuData> = gson.fromJson(IOUtils.readFileFromInputStream(it.classLoader.getResourceAsStream(it.manifest.externalMenu) ?: return@forEach), typeToken)
                 data.forEach { children ->

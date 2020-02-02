@@ -65,7 +65,7 @@ class UIManager {
     private fun setUpCSS() {
         scene.stylesheets?.clear()
         Application.setUserAgentStylesheet("MODENA")
-        setCSS(Settings.getInstance().theme)
+        setCSS(Settings.theme)
     }
 
     fun setCSS(name: String) {
@@ -75,7 +75,7 @@ class UIManager {
         val editor = File("${EnvironmentSettings.THEMES_DIRECTORY_PATH}${File.separator}$name${File.separator}editor.css")
         if (editor.exists()) loadCSS(editor.toURI().toString())
 
-        Settings.getInstance().theme = name
+        Settings.theme = name
     }
 
     fun loadCSS(uri: String) {
@@ -87,7 +87,7 @@ class UIManager {
 
     fun openFile(treeItemData: TreeItemData) {
         splitPane.getEditorPane().addTab(TabImpl(treeItemData))
-        if (!ProjectData.getInstance().isOpening(treeItemData.path)) ProjectData.getInstance().addOpeningFile(treeItemData.path)
+        if (!ProjectData.isOpening(treeItemData.path)) ProjectData.addOpeningFile(treeItemData.path)
         EventManager.getInstance().callEvent(TabPaneTabOpenedEvent(treeItemData))
     }
 

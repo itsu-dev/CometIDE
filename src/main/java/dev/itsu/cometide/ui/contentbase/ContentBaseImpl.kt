@@ -41,7 +41,7 @@ class ContentBaseImpl : IContentBase.UI {
     }
 
     override fun createLeftPane() {
-        if (!ProjectData.getInstance().project.isEmptyProject) projectTree.reload(ProjectData.getInstance().project.root)
+        if (!ProjectData.project.isEmptyProject) projectTree.reload(ProjectData.project.root)
         left = StackPane(projectTree.getContent())
     }
 
