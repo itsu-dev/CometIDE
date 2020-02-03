@@ -9,7 +9,7 @@ class TabPresenter(val tabImpl: TabImpl) : ITab.Presenter {
 
     override fun onTabClose(tab: TabImpl) {
         ProjectData.removeOpeningFile(tab.treeItemData.path)
-        EventManager.getInstance().callEvent(TabPaneTabClosedEvent(tab.treeItemData))
+        EventManager.callEvent(TabPaneTabClosedEvent(tab.treeItemData))
     }
 
 }

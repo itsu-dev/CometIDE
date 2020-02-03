@@ -48,15 +48,15 @@ class ToolBarImpl : IToolBar.UI {
         actionBar.spacing = 4.0
 
         val find = ActionBarButton(IconCreator.createImage("img/icon/icon_find.png")).also {
-            it.setOnMouseClicked { EventManager.getInstance().callEvent(MenuItemClickedEvent("menubar.edit.find")) }
+            it.setOnMouseClicked { EventManager.callEvent(MenuItemClickedEvent("menubar.edit.find")) }
         }
 
         val projectSetting = ActionBarButton(IconCreator.createImage("img/icon/icon_project_setting.png")).also {
-            it.setOnMouseClicked { EventManager.getInstance().callEvent(MenuItemClickedEvent("menubar.file.project_setting")) }
+            it.setOnMouseClicked { EventManager.callEvent(MenuItemClickedEvent("menubar.file.project_setting")) }
         }
 
         val screenshot = ActionBarButton(IconCreator.createImage("img/icon/icon_screenshot.png")).also {
-            it.setOnMouseClicked { EventManager.getInstance().callEvent(MenuItemClickedEvent("actionbar.screenshot")) }
+            it.setOnMouseClicked { EventManager.callEvent(MenuItemClickedEvent("actionbar.screenshot")) }
         }
 
         actionBar.children.addAll(find, projectSetting, screenshot)

@@ -25,7 +25,7 @@ class FileMenuListener : EventListener {
                 if (!file.exists()) return
 
                 File("${file.absolutePath}${File.separator}NewDir").mkdir()
-                UIManager.getInstance().splitPane.getProjectTree().reload(ProjectData.project.root)
+                UIManager.splitPane.getProjectTree().reload(ProjectData.project.root)
             }
 
             "actionbar.screenshot" -> {

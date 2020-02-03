@@ -16,7 +16,7 @@ class TabPanePresenter(val tabPaneImpl: TabPaneImpl) : ITabPane.Presenter {
         ProjectData.project.openingFiles.forEach {
             val file = File(it)
             if (file.exists()) {
-                UIManager.getInstance().openFile(TreeItemData(file.name, file.absolutePath, false, TreeItemData.Type.ITEM))
+                UIManager.openFile(TreeItemData(file.name, file.absolutePath, false, TreeItemData.Type.ITEM))
             }
         }
         if (ProjectData.project.openingTab != ProjectData.TAB_NOT_SELECTED) {
@@ -26,16 +26,16 @@ class TabPanePresenter(val tabPaneImpl: TabPaneImpl) : ITabPane.Presenter {
 
     override fun onSelectTab(tab: TabImpl, index: Int) {
         ProjectData.project.openingTab = index
-        UIManager.getInstance().toolBar.reload(tab.treeItemData)
+        UIManager.toolBar.reload(tab.treeItemData)
 
-        UIManager.getInstance().setTitle("${ProjectData.project.name} [${ProjectData.project.root}] - ${TextUtils.shortenProjectPath(tab.treeItemData.path)} - CometIDE")
+        UIManager.setTitle("${ProjectData.project.name} [${ProjectData.project.root}] - ${TextUtils.shortenProjectPath(tab.treeItemData.path)} - CometIDE")
 
-        EventManager.getInstance().callEvent(TabPaneTabSelectedEvent(tab.treeItemData, index))
+        EventManager.callEvent(TabPaneTabSelectedEvent(tab.treeItemData, index))
     }
 
     override fun onCloseTab(tab: TabImpl) {
         ProjectData.removeOpeningFile(tab.treeItemData.path)
-        EventManager.getInstance().callEvent(TabPaneTabClosedEvent(tab.treeItemData))
+        EventManager.callEvent(TabPaneTabClosedEvent(tab.treeItemData))
     }
 
 }

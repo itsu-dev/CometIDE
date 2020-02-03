@@ -1,13 +1,13 @@
-package dev.itsu.cometide.ui.contentbase.menubar
+package dev.itsu.cometide.ui.util
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dev.itsu.cometide.event.EventManager
 import dev.itsu.cometide.event.events.ui.MenuItemClickedEvent
 import dev.itsu.cometide.lang.BaseLang
-import dev.itsu.cometide.ui.util.IconCreator
 import dev.itsu.cometide.model.MenuData
 import dev.itsu.cometide.plugin.PluginManager
+import dev.itsu.cometide.ui.contentbase.menubar.MenuBarImpl
 import dev.itsu.cometide.util.IOUtils
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
@@ -15,11 +15,10 @@ import javafx.scene.control.MenuItem
 import javafx.scene.control.SeparatorMenuItem
 import javafx.scene.image.ImageView
 import java.util.*
-import kotlin.collections.LinkedHashMap
 
-class MenuBarPresenter(val menuBarImpl: MenuBarImpl) : IMenuBar.Presenter {
+object MenuBarDataLoader {
 
-    override fun createMenuBar() {
+    fun createMenuBar(menuBar: MenuBar) {
         val menusData = LinkedList<MenuData>()
         val gson = Gson()
         val typeToken = TypeToken.getParameterized(LinkedList::class.java, MenuData::class.java).type
@@ -49,11 +48,11 @@ class MenuBarPresenter(val menuBarImpl: MenuBarImpl) : IMenuBar.Presenter {
             rootMenu.text = BaseLang.getLang(menu.name ?: "null")
             rootMenu.id = menu.name
             createMenu(rootMenu, menu.items)
-            (menuBarImpl.getContent() as MenuBar).menus.add(rootMenu)
+            menuBar.menus.add(rootMenu)
         }
     }
 
-    override fun createMenu(menu: Menu, data: LinkedList<MenuData>?) {
+    private fun createMenu(menu: Menu, data: LinkedList<MenuData>?) {
         data?.forEach {
             if (it.separator == true) {
                 menu.items.add(SeparatorMenuItem())
@@ -80,7 +79,7 @@ class MenuBarPresenter(val menuBarImpl: MenuBarImpl) : IMenuBar.Presenter {
         }
     }
 
-    override fun processMenuBar(parent: MenuData, children: MenuData) {
+    private fun processMenuBar(parent: MenuData, children: MenuData) {
         val first = (parent.items ?: return)
                 .stream()
                 .filter { it.getMenuDataByName(children.name ?: return@filter false ) != null }
@@ -88,5 +87,6 @@ class MenuBarPresenter(val menuBarImpl: MenuBarImpl) : IMenuBar.Presenter {
         if (first.isPresent) processMenuBar(first.get().getMenuDataByName(children.name!!)!!, children)
         else parent.items.add(children)
     }
+
 
 }

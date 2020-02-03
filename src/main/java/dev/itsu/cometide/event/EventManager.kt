@@ -6,16 +6,9 @@ import dev.itsu.cometide.event.internal.EditMenuListener
 import dev.itsu.cometide.event.internal.FileMenuListener
 import dev.itsu.cometide.event.internal.UIListener
 
-class EventManager {
+object EventManager {
 
     private val listeners = mutableListOf<Class<out EventListener>>()
-
-    companion object {
-        private var instance: EventManager? = null
-        fun getInstance() = instance ?: synchronized(this) {
-            instance ?: EventManager().also { instance = it }
-        }
-    }
 
     init {
         registerInternalEvents()

@@ -52,23 +52,23 @@ class ProjectTreePresenter(val projectTreeImpl: ProjectTreeImpl) : IProjectTree.
     override fun onItemSelect(newValue: TreeItemData) {
         val treeItemData = newValue
         ProjectData.project.selectingFile = treeItemData.path
-        UIManager.getInstance().toolBar.reload(newValue)
-        EventManager.getInstance().callEvent(ProjectTreeItemSelectedEvent(newValue))
+        UIManager.toolBar.reload(newValue)
+        EventManager.callEvent(ProjectTreeItemSelectedEvent(newValue))
     }
 
     override fun onDoubleClick(mouseEvent: MouseEvent, selectedItem: TreeItem<TreeItemData>) {
         if (selectedItem.value.type != TreeItemData.Type.GROUP) {
             if (!ProjectData.isOpening(selectedItem.value.path)) {
-                UIManager.getInstance().openFile(selectedItem.value)
+                UIManager.openFile(selectedItem.value)
             } else {
-                UIManager.getInstance().splitPane.getEditorPane().setTab(selectedItem.value.name)
+                UIManager.splitPane.getEditorPane().setTab(selectedItem.value.name)
             }
         }
-        EventManager.getInstance().callEvent(ProjectTreeItemDoubleClickedEvent(mouseEvent, selectedItem))
+        EventManager.callEvent(ProjectTreeItemDoubleClickedEvent(mouseEvent, selectedItem))
     }
 
     override fun onRightClick(mouseEvent: MouseEvent, selectedItem: TreeItem<TreeItemData>) {
-        EventManager.getInstance().callEvent((ProjectTreeItemRightClickedEvent(mouseEvent, selectedItem)))
+        EventManager.callEvent((ProjectTreeItemRightClickedEvent(mouseEvent, selectedItem)))
     }
 
 }

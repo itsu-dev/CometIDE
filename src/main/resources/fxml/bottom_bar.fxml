@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<GridPane prefHeight="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.itsu.cometide.ui.controller.BottomBarController">
+    <columnConstraints>
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="33.3" prefWidth="100.0" />
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="33.3" prefWidth="100.0" />
+        <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="33.3" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <HBox fx:id="bottomLeftBox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="8.0">
+            <children>
+                <Label fx:id="statusLabel" text="Status" />
+            </children>
+        </HBox>
+        <HBox fx:id="bottomCenterBox" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1">
+            <children>
+                <Label fx:id="informationLabel" text="Information" />
+            </children>
+        </HBox>
+        <HBox fx:id="bottomRightBox" alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="8.0" GridPane.columnIndex="2">
+            <children>
+                <Label fx:id="encodingLabel" text="Encoding" />
+                <Label fx:id="caretPosLabel" text="Carent Position" />
+            </children>
+        </HBox>
+    </children>
+</GridPane>

@@ -17,7 +17,7 @@ class UIListener : EventListener {
     fun onClose(event: MainStageClosedEvent) {
         //PluginManager.getInstance().disablePlugins()
 
-        UIManager.getInstance().splitPane.getEditorPane().getTabs().forEach {
+        UIManager.splitPane.getEditorPane().getTabs().forEach {
             if (it is TabImpl && it.getTabContent() is AbstractEditor) {
                 (it.getTabContent() as AbstractEditor).onClose()
             }

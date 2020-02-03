@@ -54,7 +54,7 @@ object PluginLoader {
         mainClass.initialize(manifest, classLoader ?: return null, File("${EnvironmentSettings.PLUGINS_DIRECTORY_PATH}/${manifest.name}"), target)
         mainClass.onEnable()
 
-        EventManager.getInstance().callEvent(PluginLoadedEvent(manifest))
+        EventManager.callEvent(PluginLoadedEvent(manifest))
 
         return Pair(manifest.name, mainClass)
     }

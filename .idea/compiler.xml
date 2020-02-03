@@ -16,11 +16,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="CometIDE" />
+        <module name="CometUILib" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="CometIDE" target="1.8" />
+      <module name="CometUILib" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

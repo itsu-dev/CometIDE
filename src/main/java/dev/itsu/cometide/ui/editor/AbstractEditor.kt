@@ -54,14 +54,14 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
 
         val css = File(EnvironmentSettings.THEMES_DIRECTORY_PATH + "/" + Settings.theme + "/syntax/" + extension + ".css")
         if (css.exists()) {
-            UIManager.getInstance().loadCSS(css.toURI().toString())
+            UIManager.loadCSS(css.toURI().toString())
         } else {
             val url = AbstractEditor::class.java.classLoader.getResource("theme/dark/syntax/$extension.css")
-            if (url != null) UIManager.getInstance().loadCSS(url.toExternalForm())
+            if (url != null) UIManager.loadCSS(url.toExternalForm())
         }
 
         codeArea.caretPositionProperty().addListener { _, _, _ ->
-            val bottomBar = UIManager.getInstance().splitPane.getBottomBar()
+            val bottomBar = UIManager.splitPane.getBottomBar()
             bottomBar.setLocation(codeArea.currentParagraph, codeArea.caretColumn)
         }
 

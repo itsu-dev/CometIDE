@@ -6,7 +6,11 @@
 
     <groupId>dev.itsu.cometide</groupId>
     <artifactId>CometIDE</artifactId>
+    <packaging>pom</packaging>
     <version>0.0.5-SNAPSHOT</version>
+    <modules>
+        <module>CometUILib</module>
+    </modules>
     <name>CometIDE</name>
 
     <properties>
@@ -94,6 +98,11 @@
     </build>
 
     <dependencies>
+        <dependency>
+            <groupId>dev.itsu.cometide</groupId>
+            <artifactId>CometUILib</artifactId>
+            <version>0.0.5-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.github.javaparser</groupId>
             <artifactId>javaparser-symbol-solver-core</artifactId>
