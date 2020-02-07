@@ -2,7 +2,9 @@ package dev.itsu.cometide.ui.controller
 
 import com.jfoenix.controls.JFXProgressBar
 import dev.itsu.cometide.dao.SettingsDao
+import dev.itsu.cometide.lang.BaseLang
 import dev.itsu.cometide.model.ui.BottomBarDataModel
+import dev.itsu.cometide.ui.util.IconCreator
 import javafx.animation.KeyFrame
 import javafx.animation.KeyValue
 import javafx.animation.Timeline
@@ -45,7 +47,14 @@ class BottomBarController {
         if (bottomBarDataModel != null) throw IllegalStateException("BottomBarDataModel has already initialized!")
 
         bottomBarDataModel = model
-        bottomBarDataModel!!.status.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { statusLabel.text = newValue } }
+        bottomBarDataModel!!.status.addListener { _, _, newValue ->
+            GlobalScope.launch(Dispatchers.JavaFx) {
+                statusLabel.text = newValue
+                if (newValue == BaseLang.getLang("bottombar.status.ready")) {
+                    statusLabel.graphic = IconCreator.createImageView(IconCreator.createImage("img/icon/icon_ready.png"))
+                }
+            }
+        }
         bottomBarDataModel!!.information.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { informationLabel.text = newValue } }
         bottomBarDataModel!!.encoding.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { encodingLabel.text = newValue } }
         bottomBarDataModel!!.caretPosition.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { caretPosLabel.text = newValue } }
