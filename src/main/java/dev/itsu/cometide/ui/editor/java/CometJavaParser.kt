@@ -14,7 +14,7 @@ object CometJavaParser {
             if (unit.problems.size == 0) {
                 val result = unit.result.get()
                 result.accept(GrammerMarker(editorImpl), "")
-                UIManager.splitPane.getBottomBar().setStatus(BaseLang.getLang("bottombar.status.ready"))
+                UIManager.getBottomBarController().getDataModel().setStatus(BaseLang.getLang("bottombar.status.ready"))
             } else {
                 ErrorMarker.mark(unit.problems, editorImpl)
             }

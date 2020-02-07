@@ -1,19 +1,14 @@
 package dev.itsu.cometide.ui.editor
 
+import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.data.EditorData
-import dev.itsu.cometide.data.EnvironmentSettings
-import dev.itsu.cometide.data.Settings
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.UIManager
-import dev.itsu.cometide.ui.contentbase.bottombar.BottomBarImpl
-import dev.itsu.cometide.ui.contentbase.tabcontent.ITabContent
+import dev.itsu.cometide.ui.part.tab.TabContent
 import dev.itsu.cometide.util.IOUtils
 import javafx.application.Platform
-import javafx.beans.value.ChangeListener
 import javafx.concurrent.Task
-import javafx.event.EventHandler
 import org.fxmisc.flowless.VirtualizedScrollPane
-import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.LineNumberFactory
 import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.event.MouseOverTextEvent
@@ -24,7 +19,7 @@ import java.time.Duration
 import java.util.*
 import java.util.concurrent.Executors
 
-abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : ITabContent {
+abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : TabContent(treeItemData) {
 
     val codeArea = StyleClassedTextArea()
     private val virtualizedScrollPane = VirtualizedScrollPane(codeArea)
@@ -32,6 +27,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
     private val cleanupWhenDone: Subscription
 
     init {
+        content = virtualizedScrollPane
         codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea)
         codeArea.id = extension
         codeArea.mouseOverTextDelay = Duration.ofSeconds(1)
@@ -52,7 +48,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
 
         setUp(codeArea)
 
-        val css = File(EnvironmentSettings.THEMES_DIRECTORY_PATH + "/" + Settings.theme + "/syntax/" + extension + ".css")
+        val css = File(SettingsDao.ENVIRONMENT_VARIABLES["THEMES_DIRECTORY_PATH"] + "/" + SettingsDao.THEME + "/syntax/" + extension + ".css")
         if (css.exists()) {
             UIManager.loadCSS(css.toURI().toString())
         } else {
@@ -61,8 +57,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
         }
 
         codeArea.caretPositionProperty().addListener { _, _, _ ->
-            val bottomBar = UIManager.splitPane.getBottomBar()
-            bottomBar.setLocation(codeArea.currentParagraph, codeArea.caretColumn)
+            UIManager.getBottomBarController().getDataModel().setCaretPosition("${codeArea.currentParagraph}:${codeArea.caretColumn}")
         }
 
         codeArea.focusedProperty().addListener { _ ->
@@ -123,10 +118,6 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : I
     open fun onClose() {
         onEditorClose()
         service.shutdown()
-    }
-
-    override fun getContent(): VirtualizedScrollPane<StyleClassedTextArea> {
-        return virtualizedScrollPane
     }
 
     private fun loadFile(path: String) {

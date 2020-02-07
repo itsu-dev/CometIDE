@@ -1,7 +1,6 @@
 package dev.itsu.cometide.plugin.loader
 
 import java.io.File
-import java.net.URL
 import java.net.URLClassLoader
 
 class PluginClassLoader(val parentLoader: ClassLoader, val file: File) : URLClassLoader(arrayOf(file.toURI().toURL()), parentLoader) {

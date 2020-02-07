@@ -5,14 +5,12 @@ import dev.itsu.cometide.ui.editor.AbstractEditor
 import dev.itsu.cometide.ui.editor.java.visitor.ErrorMarker
 import javafx.scene.control.Label
 import javafx.stage.Popup
-import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.event.MouseOverTextEvent
 import org.fxmisc.richtext.model.StyleSpan
 import org.fxmisc.richtext.model.StyleSpans
 import org.fxmisc.richtext.model.StyleSpansBuilder
 import org.fxmisc.richtext.model.TwoDimensional
-import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.regex.Pattern
 
 class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, "java") {

@@ -1,6 +1,6 @@
 package dev.itsu.cometide.lang
 
-import dev.itsu.cometide.data.EnvironmentSettings
+import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.util.PropertyLoader
 import java.util.*
 
@@ -28,7 +28,7 @@ object BaseLang {
     }
 
     fun getLangFromFallback(key: String): String? {
-        val properties = PropertyLoader.loadPropertiesFromInputStream(BaseLang::class.java.classLoader.getResourceAsStream("lang/" + EnvironmentSettings.FALLBACK_LANGUAGE + ".properties") ?: return "")
+        val properties = PropertyLoader.loadPropertiesFromInputStream(BaseLang::class.java.classLoader.getResourceAsStream("lang/" + SettingsDao.FALLBACK_LANGUAGE + ".properties") ?: return "")
                 ?: return null
         return properties.getProperty(key)
     }

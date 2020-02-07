@@ -1,8 +1,6 @@
 package dev.itsu.cometide.lang
 
-import dev.itsu.cometide.data.EnvironmentSettings
-import dev.itsu.cometide.data.Settings
-import dev.itsu.cometide.plugin.loader.PluginClassLoader
+import dev.itsu.cometide.dao.SettingsDao
 import java.io.BufferedReader
 import java.io.File
 import java.io.InputStreamReader
@@ -25,7 +23,7 @@ object PluginLangLoader {
                         .toList()
                         .first()
                 properties.load(BufferedReader(InputStreamReader(jar.getInputStream(entry)
-                        ?: return@forEach, Settings.defaultEncode)))
+                        ?: return@forEach, SettingsDao.ENCODING)))
                 properties.forEach { (key, value) ->
                     BaseLang.strings[key] = value
                 }

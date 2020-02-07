@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<settings>
+    <fallbackLanguage>eng</fallbackLanguage>
+    <language>jpn</language>
+    <theme>dark</theme>
+    <encoding>UTF-8</encoding>
+    <previousProject>F:\OneDrive\Documents\GitHub\MiRmApp</previousProject>
+    <environmentVariables>
+        <variable key="PLUGINS_DIRECTORY_PATH" value="./data/plugins" />
+        <variable key="TEMP_DIRECTORY_PATH" value="./data/temp" />
+        <variable key="THEMES_DIRECTORY_PATH" value="./data/themes" />
+        <variable key="THEMES_DIRECTORY_CODES_PATH" value="./data/themes/codes" />
+    </environmentVariables>
+</settings>

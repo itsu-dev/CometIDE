@@ -7,7 +7,6 @@ import dev.itsu.cometide.event.events.ui.MenuItemClickedEvent
 import dev.itsu.cometide.lang.BaseLang
 import dev.itsu.cometide.model.MenuData
 import dev.itsu.cometide.plugin.PluginManager
-import dev.itsu.cometide.ui.contentbase.menubar.MenuBarImpl
 import dev.itsu.cometide.util.IOUtils
 import javafx.scene.control.Menu
 import javafx.scene.control.MenuBar
@@ -69,7 +68,7 @@ object MenuBarDataLoader {
 
                 children.text = BaseLang.getLang(it.name ?: "")
                 children.id = it.name
-                if (it.icon != null) children.graphic = ImageView(IconCreator.createImage(it.icon, MenuBarImpl::class.java.classLoader))
+                if (it.icon != null) children.graphic = ImageView(IconCreator.createImage(it.icon, MenuBarDataLoader::class.java.classLoader))
                 children.setOnAction {
                     EventManager.callEvent(MenuItemClickedEvent(children.id))
                 }

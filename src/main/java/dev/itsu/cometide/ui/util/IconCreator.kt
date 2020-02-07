@@ -9,16 +9,13 @@ import java.io.File
 object IconCreator {
     val ICON_DIRECTORY = createImage("img/icon/icon_directory.png")
     val ICON_DIRECTORY_PROJECT = createImage("img/icon/icon_directory_project.png")
-    val ICON_DIRECTORY_NEW = createImage("img/icon/icon_directory_new.png")
     val ICON_DIRECTORY_SRC = createImage("img/icon/icon_directory_src.png")
     val ICON_DIRECTORY_RESOURCE = createImage("img/icon/icon_directory_resource.png")
     val ICON_DIRECTORY_PHOTO = createImage("img/icon/icon_directory_photo.png")
-    val ICON_DIRECTORY_2 = createImage("img/icon/icon_directory_2.png")
     val ICON_NEXT = createImage("img/icon/icon_next.png")
     val ICON_CODE = createImage("img/icon/icon_code.png")
     val ICON_PHOTO = createImage("img/icon/icon_photo.png")
     val ICON_FILE = createImage("img/icon/icon_file.png")
-    val ICON_SETTING = createImage("img/icon/icon_file.png")
 
     fun createImageFromData(treeItemData: TreeItemData): ImageView {
         val file = File(treeItemData.path)

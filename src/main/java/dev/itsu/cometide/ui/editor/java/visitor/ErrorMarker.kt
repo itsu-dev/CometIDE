@@ -21,7 +21,7 @@ object ErrorMarker {
                   if (range.isPresent) {
                       editorImpl.codeArea.setStyle(range.get().begin.line - 1, range.get().begin.column - 1, range.get().begin.column, setOf("problem"))
                   }
-                  UIManager.splitPane.getBottomBar().setStatus(it.message)
+                  UIManager.getBottomBarController().getDataModel().setStatus(it.message)
               }
           }
       }

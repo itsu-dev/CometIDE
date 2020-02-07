@@ -2,7 +2,6 @@ package dev.itsu.cometide.ui.editor.text
 
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.editor.AbstractEditor
-import org.fxmisc.richtext.CodeArea
 import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.model.StyleSpans
 

@@ -97,7 +97,7 @@ Accent color: #1565C0
     -fx-background-color: #333843;
 }
 
-.toolbar {
+.actionbar {
     -fx-background-color: #282C34;
     -fx-padding: 0 0 0 0;
     -fx-border-style: solid;
@@ -277,4 +277,21 @@ Accent color: #1565C0
     -fx-min-height: 28px;
     -fx-max-height: 28px;
     -fx-background-color: derive(#1565C080, 5.0%);
+}
+
+.jfx-progress-bar > .track{
+    -fx-background-color: transparent;
+}
+
+.jfx-decorator {
+    -fx-decorator-color: #1C1F25;
+}
+
+.jfx-decorator .jfx-decorator-buttons-container {
+    -fx-background-color: -fx-decorator-color;
+}
+
+.jfx-decorator .resize-border {
+    -fx-border-color: -fx-decorator-color;
+    -fx-border-width: 0 2 2 2;
 }

@@ -1,8 +1,7 @@
 package dev.itsu.cometide.plugin
 
-import dev.itsu.cometide.data.EnvironmentSettings
+import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.lang.PluginLangLoader
-import dev.itsu.cometide.plugin.loader.PluginClassLoader
 import dev.itsu.cometide.ui.util.ThemeInstaller
 import java.io.File
 
@@ -28,7 +27,7 @@ abstract class AbstractPlugin {
         }
 
         if (manifest.externalTheme != null) {
-            ThemeInstaller.installTheme(file, manifest.externalTheme!!, this.classLoader, EnvironmentSettings.THEMES_DIRECTORY_PATH)
+            ThemeInstaller.installTheme(file, manifest.externalTheme!!, this.classLoader, SettingsDao.ENVIRONMENT_VARIABLES["THEMES_DIRECTORY_PATH"]!!)
         }
 
         if (manifest.externalLanguage != null) {

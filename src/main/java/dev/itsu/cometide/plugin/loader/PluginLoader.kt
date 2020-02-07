@@ -1,14 +1,12 @@
 package dev.itsu.cometide.plugin.loader
 
-import dev.itsu.cometide.data.EnvironmentSettings
+import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.event.EventManager
 import dev.itsu.cometide.event.events.plugin.PluginLoadedEvent
 import dev.itsu.cometide.plugin.AbstractPlugin
 import dev.itsu.cometide.plugin.AbstractPluginEntryPoint
 import dev.itsu.cometide.plugin.PluginManifest
 import java.io.File
-import java.net.URLClassLoader
-import java.util.jar.JarFile
 
 object PluginLoader {
 
@@ -51,7 +49,7 @@ object PluginLoader {
         }
 
         mainClass ?: return null
-        mainClass.initialize(manifest, classLoader ?: return null, File("${EnvironmentSettings.PLUGINS_DIRECTORY_PATH}/${manifest.name}"), target)
+        mainClass.initialize(manifest, classLoader ?: return null, File("${SettingsDao.ENVIRONMENT_VARIABLES["PLUGINS_DIRECTORY_PATH"]}/${manifest.name}"), target)
         mainClass.onEnable()
 
         EventManager.callEvent(PluginLoadedEvent(manifest))

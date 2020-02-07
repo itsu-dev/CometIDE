@@ -1,0 +1,5 @@
+<extensionCorresponds>
+	<extension name="java" class="dev.itsu.cometide.ui.editor.java.JavaEditorImpl"></extension>
+	<extension name="txt" class="dev.itsu.cometide.ui.editor.text.TextEditorImpl"></extension>
+	<extension name="jpn,png,jpeg" class="dev.itsu.cometide.ui.contentbase.tabcontent.photograph.PhotoViewer"></extension>
+</extensionCorresponds>

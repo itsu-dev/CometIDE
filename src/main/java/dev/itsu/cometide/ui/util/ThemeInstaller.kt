@@ -1,9 +1,7 @@
 package dev.itsu.cometide.ui.util
 
-import dev.itsu.cometide.plugin.loader.PluginClassLoader
 import java.io.File
 import java.io.IOException
-import java.io.InputStream
 import java.nio.file.Files
 import java.util.jar.JarEntry
 import java.util.jar.JarFile

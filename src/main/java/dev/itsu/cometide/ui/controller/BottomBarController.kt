@@ -1,10 +1,19 @@
 package dev.itsu.cometide.ui.controller
 
+import com.jfoenix.controls.JFXProgressBar
+import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.model.ui.BottomBarDataModel
+import javafx.animation.KeyFrame
+import javafx.animation.KeyValue
+import javafx.animation.Timeline
 import javafx.fxml.FXML
 import javafx.scene.control.Label
 import javafx.scene.layout.HBox
-import java.lang.IllegalStateException
+import javafx.util.Duration
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.javafx.JavaFx
+import kotlinx.coroutines.launch
 
 
 class BottomBarController {
@@ -36,14 +45,25 @@ class BottomBarController {
         if (bottomBarDataModel != null) throw IllegalStateException("BottomBarDataModel has already initialized!")
 
         bottomBarDataModel = model
-        bottomBarDataModel!!.status.addListener { _, _, newValue -> statusLabel.text = newValue }
-        bottomBarDataModel!!.information.addListener { _, _, newValue -> informationLabel.text = newValue }
-        bottomBarDataModel!!.encoding.addListener { _, _, newValue -> encodingLabel.text = newValue }
-        bottomBarDataModel!!.caretPosition.addListener { _, _, newValue -> caretPosLabel.text = newValue }
+        bottomBarDataModel!!.status.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { statusLabel.text = newValue } }
+        bottomBarDataModel!!.information.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { informationLabel.text = newValue } }
+        bottomBarDataModel!!.encoding.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { encodingLabel.text = newValue } }
+        bottomBarDataModel!!.caretPosition.addListener { _, _, newValue -> GlobalScope.launch(Dispatchers.JavaFx) { caretPosLabel.text = newValue } }
+
+        bottomBarDataModel!!.setEncoding(SettingsDao.ENCODING)
     }
 
-    fun setStatus(text: String) = bottomBarDataModel?.setStatus(text)
-    fun setInformation(text: String) = bottomBarDataModel?.setInformation(text)
-    fun setEncoding(text: String) = bottomBarDataModel?.setEncoding(text)
-    fun setCaretPosition(text: String) = bottomBarDataModel?.setCaretPosition(text)
+    fun setLoading(boolean: Boolean) {
+        when (boolean) {
+            true -> {
+                val indicator = JFXProgressBar()
+                indicator.progress = -1.0
+                informationLabel.graphic = indicator
+            }
+            false -> informationLabel.graphic = null
+        }
+    }
+
+    fun getDataModel(): BottomBarDataModel = bottomBarDataModel!!
+
 }
