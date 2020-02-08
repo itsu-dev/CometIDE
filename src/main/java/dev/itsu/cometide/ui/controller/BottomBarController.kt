@@ -52,6 +52,8 @@ class BottomBarController {
                 statusLabel.text = newValue
                 if (newValue == BaseLang.getLang("bottombar.status.ready")) {
                     statusLabel.graphic = IconCreator.createImageView(IconCreator.createImage("img/icon/icon_ready.png"))
+                } else {
+                    statusLabel.graphic = null
                 }
             }
         }

@@ -108,11 +108,9 @@ class BaseController {
         val tabs = mainTabPane.tabs.stream()
                 .filter { if (it is TabContent) { return@filter it.treeItemData.path == tab.treeItemData.path } else return@filter false}
                 .toArray()
-        if (tabs.isEmpty()) {
-            mainTabPane.tabs.add(tab)
-        } else {
-            // TODO Move to the tab which has same path
-        }
+        if (tabs.isEmpty()) mainTabPane.tabs.add(tab)
+
+        setTab(tab.treeItemData)
     }
 
     fun setTab(treeItemData: TreeItemData) {
