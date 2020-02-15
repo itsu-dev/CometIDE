@@ -142,7 +142,6 @@ Accent color: #1565C0
 
 .tab-content-area {
     /*-fx-effect: innershadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0, -5, 0);*/
-    -fx-effect: innershadow(gaussian, rgba(34, 38, 46, 0.6), 0, 0, 0, 5.0);
 }
 
 .tab-pane .tab:selected {

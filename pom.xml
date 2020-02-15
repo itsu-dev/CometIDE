@@ -83,6 +83,9 @@
                         <manifest>
                             <mainClass>dev.itsu.cometide.MainKt</mainClass>
                         </manifest>
+                        <manifestEntries>
+                            <Splashscreen-Image>img/splash.png</Splashscreen-Image>
+                        </manifestEntries>
                     </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -105,9 +108,10 @@
                     <archive>
                         <manifest>
                             <mainClass>dev.itsu.cometide.MainKt</mainClass>
-                            <addClasspath>true</addClasspath>
-                            <addExtensions>false</addExtensions>
                         </manifest>
+                        <manifestEntries>
+                            <Splashscreen-Image>img/splash.png</Splashscreen-Image>
+                        </manifestEntries>
                     </archive>
                 </configuration>
             </plugin>

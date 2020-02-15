@@ -17,6 +17,8 @@
 
 .paragraph-box:has-caret {
     -fx-background-color: #333843;
+    -fx-border-color: -fx-accent;
+    -fx-border-width: 0 0 0 3;
 }
 
 .lineno {
