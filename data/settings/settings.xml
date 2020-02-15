@@ -3,7 +3,7 @@
 	<language>jpn</language>
 	<encoding>UTF-8</encoding>
 	<theme>dark</theme>
-	<previousProject>F:\OneDrive\Documents\GitHub\MiRmApp</previousProject>
+	<previousProject>F:\OneDrive\Documents\GitHub\CometIDE</previousProject>
 	<environmentVariables>
 		<variable key="PLUGINS_DIRECTORY_PATH" value="./data/plugins"></variable>
 		<variable key="TEMP_DIRECTORY_PATH" value="./data/temp"></variable>

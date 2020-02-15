@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/8.2.2/markdown-it.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/languages/vbnet.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/ir-black.min.css">
+    <script>
+        $(function() {
+            var markdownit = window.markdownit({
+                html   : true,
+                breaks : true,
+                highlight: function (str, lang) {
+                    if (lang && hljs.getLanguage(lang)) {
+                        try {
+                            return hljs.highlight(lang, str).value;
+                        } catch (__) {}
+                    }
+                    return '';
+                }
+            });
+            hljs.initHighlightingOnLoad();
+            var md = markdownit.render(getHtml("body"));
+            $("body").html(md);
+        });
+        function getHtml(selector) {
+            var html = $(selector).html();
+            html = html.replace(/&lt;/g, '<');
+            html = html.replace(/&gt;/g, '>');
+            html = html.replace(/&amp;/g, '&');
+
+            return html;
+        }
+    </script>
+    <style>
+        table  { border-collapse: collapse; }
+        th, td { border:1px solid #999; padding:2px 5px; }
+        th     { background:#e0e0e0; }
+    </style>
+    <style type="text/css">
+        body {
+            font-family: 'DejaVu Sans', Arial, Helvetica, sans-serif;
+            background: #3E4450;
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+MARK_DOWN_TEXT
+</body>
+</html>

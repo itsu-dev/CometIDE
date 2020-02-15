@@ -32,6 +32,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="Maven: com.sandec:mdfx:0.1.6" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-ext-tables:0.34.10" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-util:0.34.10" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark:0.34.10" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-formatter:0.34.10" level="project" />
+    <orderEntry type="library" name="Maven: com.vladsch.flexmark:flexmark-ext-attributes:0.34.10" level="project" />
     <orderEntry type="library" name="Maven: com.jfoenix:jfoenix:9.0.9" level="project" />
     <orderEntry type="library" name="Maven: com.github.javaparser:javaparser-symbol-solver-core:3.15.9" level="project" />
     <orderEntry type="library" name="Maven: com.github.javaparser:javaparser-symbol-solver-logic:3.15.9" level="project" />

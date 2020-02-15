@@ -57,7 +57,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
         }
 
         codeArea.caretPositionProperty().addListener { _, _, _ ->
-            UIManager.getBottomBarController().getDataModel().setCaretPosition("${codeArea.currentParagraph}:${codeArea.caretColumn}")
+            UIManager.getBottomBarController().getDataModel().setCaretPosition("${codeArea.currentParagraph + 1}:${codeArea.caretColumn + 1}")
         }
 
         codeArea.focusedProperty().addListener { _ ->
@@ -65,7 +65,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
         }
 
         codeArea.addEventHandler(MouseOverTextEvent.MOUSE_OVER_TEXT_BEGIN) {
-           onMouseOverTextStart(it)
+            onMouseOverTextStart(it)
         }
 
         codeArea.addEventHandler(MouseOverTextEvent.MOUSE_OVER_TEXT_END) {
@@ -106,6 +106,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
     open fun onMouseOverTextStart(event: MouseOverTextEvent) {
 
     }
+
     open fun onMouseOverTextEnd(event: MouseOverTextEvent) {
 
     }

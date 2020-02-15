@@ -8,7 +8,39 @@
         "items": [
           {
             "name": "menubar.file.new.project",
-            "icon": "img/icon/icon_directory_project.png"
+            "icon": "img/icon/icon_directory_project.png",
+            "items": [
+              {
+                "name": "menubar.file.new.project.java_project",
+                "icon": "img/icon/icon_java.png"
+              },
+              {
+                "name": "menubar.file.new.project.maven",
+                "icon": "img/icon/icon_maven.png"
+              },
+              {
+                "separator": "true"
+              },
+              {
+                "name": "menubar.file.new.project.nukkit_plugin",
+                "icon": "img/icon/icon_nukkit.png"
+              },
+              {
+                "name": "menubar.file.new.project.pmmp_plugin",
+                "icon": "img/icon/icon_pmmp.png"
+              },
+              {
+                "name": "menubar.file.new.project.minecraft_server",
+                "icon": "img/icon/icon_minecraft.png"
+              },
+              {
+                "separator": "true"
+              },
+              {
+                "name": "menubar.file.new.project.addon",
+                "icon": "img/icon/icon_minecraft.png"
+              }
+            ]
           },
           {
             "separator": "true"

@@ -27,7 +27,7 @@
 }
 
 .lineno .text {
-    -fx-fill: #43454A;/*43454A*/
+    -fx-fill: #43454A; /*43454A*/
     -fx-font-family: Arial;
     -fx-font-size: 12;
 }
@@ -35,4 +35,56 @@
 .caret {
     -fx-stroke: #1E88E5;
     -fx-stroke-width: 2px;
+}
+
+/* Markdown */
+* {
+    -mdfx-font-color: #cccccc;
+    -mdfx-border-color-1: #888;
+
+    -mdfx-bg-color-1: #ccc;
+    -mdfx-bg-color-2: #ddd;
+    -mdfx-bg-color-3: #eee;
+}
+
+.markdown-text {
+    -fx-font-family: ARIAL;
+}
+
+.markdown-italic {
+    -fx-font-style: italic;
+}
+
+.markdown-bold {
+    -fx-font-weight: bold;
+}
+
+.markdown-heading-1 {
+    -fx-padding: 14;
+    -fx-border-color: #282C34;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-2 {
+    -fx-padding: 10;
+    -fx-border-color: #282C34;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-3 {
+    -fx-padding: 8;
+    -fx-border-color: #282C34;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-4 {
+    -fx-padding: 6;
+    -fx-border-color: #282C34;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-5 {
+    -fx-padding: 4;
+    -fx-border-color: #282C34;
+    -fx-border-width: 0 0 1 0;
 }

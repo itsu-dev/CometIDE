@@ -3,4 +3,5 @@
 	<extension name="txt" class="dev.itsu.cometide.ui.editor.text.TextEditorImpl"></extension>
 	<extension name="jpn,png,jpeg" class="dev.itsu.cometide.ui.contentbase.tabcontent.photograph.PhotoViewer"></extension>
 	<extension name="xml" class="dev.itsu.cometide.ui.editor.xml.XMLEditorImpl"></extension>
+	<extension name="md" class="dev.itsu.cometide.ui.editor.markdown.MarkdownEditorImpl"></extension>
 </extensionCorresponds>
