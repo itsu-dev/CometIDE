@@ -1,6 +1,18 @@
-# CometIDE 
-<b>Minecraft IDE Project (For Pocketmine-MP/Nukkit plugins, Addons...</b>  
 [![GPL License](http://img.shields.io/badge/license-GPL-blue.svg?style=flat)](LICENSE)
+
+---
+
+<h3 align="center" > Comet IDE </h3>
+<p align="center">
+:star:
+</p>
+<p align="center"> 
+<sup>
+<b> Minecraft IDE Project (For Pocketmine-MP/Nukkit plugins, Addons...)  </b>
+</sup>
+</p>
+
+--- 
 <img src="https://raw.githubusercontent.com/itsu-dev/CometIDE/master/CometIDE.png">
 
 ## Features
