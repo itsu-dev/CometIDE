@@ -14,6 +14,7 @@ import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.event.MouseOverTextEvent
 import org.fxmisc.richtext.model.StyleSpans
 import org.reactfx.Subscription
+import org.reactfx.value.Var
 import java.io.File
 import java.time.Duration
 import java.util.*
@@ -110,7 +111,6 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
     open fun onMouseOverTextEnd(event: MouseOverTextEvent) {
 
     }
-
 
     open fun onEditorClose() {
 

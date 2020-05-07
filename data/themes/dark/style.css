@@ -35,7 +35,7 @@ Accent color: #1565C0
 }
 
 .tree-cell {
-    -fx-background-color: #282C34;
+    -fx-background-color: #22262e;
     -fx-text-fill: -fx-text;
 }
 
@@ -48,7 +48,7 @@ Accent color: #1565C0
 }
 
 .tree-view {
-    -fx-background-color: #282C34;
+    -fx-background-color: #22262e;
 }
 
 .menu-bar {

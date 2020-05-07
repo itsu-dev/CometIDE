@@ -22,7 +22,6 @@ class ProjectTree : AnchorPane() {
         treeView.selectionModel.selectedItemProperty().addListener { _, _, newValue ->
             if (newValue != null)
                 EventManager.callEvent(ProjectTreeItemSelectedEvent(newValue.value))
-            //presenter.onItemSelect(newValue.value)
         }
         treeView.cellFactory = ProjectTreeCellFactory()
         children.add(treeView)

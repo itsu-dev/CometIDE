@@ -22,14 +22,7 @@ class MarkdownEditorImpl(treeItemData: TreeItemData) : TabContent(treeItemData) 
         splitPane.items.addAll(editor.content, stackPane)
 
         webView.engine.isJavaScriptEnabled = true
-        /*
-        splitPane.dividers[0].positionProperty().addListener { _, _, value ->
-            stackPane.prefWidth = splitPane.width * value.toDouble()
-            webView.zoom = (splitPane.width * value.toDouble()) / webView.maxWidth
-        }
-
-         */
-
+        
         this.content = splitPane
     }
 

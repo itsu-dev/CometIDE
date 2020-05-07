@@ -34,7 +34,7 @@ object UIManager {
     private lateinit var bottomBarController: BottomBarController
 
     fun launch(stage: Stage) {
-        if (initialized) throw IllegalStateException("UIManager has already initialized!")
+        if (initialized) throw IllegalStateException("UIManager has been already initialized!")
         initialized = true
         primaryStage = stage
 

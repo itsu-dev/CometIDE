@@ -3,7 +3,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane prefHeight="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.itsu.cometide.ui.controller.BottomBarController">
+<GridPane prefHeight="30.0" minHeight="30.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dev.itsu.cometide.ui.controller.BottomBarController">
     <columnConstraints>
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="33.3" prefWidth="100.0" />
         <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="33.3" prefWidth="100.0" />

@@ -1,10 +1,18 @@
 package dev.itsu.cometide.ui.editor.java
 
+import dev.itsu.cometide.editor.lang.java.JavaProgramParser
+import dev.itsu.cometide.editor.model.ParseConsequence
+import dev.itsu.cometide.lang.BaseLang
 import dev.itsu.cometide.model.TreeItemData
+import dev.itsu.cometide.ui.UIManager
 import dev.itsu.cometide.ui.editor.AbstractEditor
-import dev.itsu.cometide.ui.editor.java.visitor.ErrorMarker
 import javafx.scene.control.Label
 import javafx.stage.Popup
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.javafx.JavaFx
+import kotlinx.coroutines.launch
 import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.event.MouseOverTextEvent
 import org.fxmisc.richtext.model.StyleSpan
@@ -25,7 +33,7 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
             "new", "package", "private", "protected", "public",
             "return", "short", "static", "strictfp", "super",
             "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while"
+            "transient", "try", "void", "volatile", "while", "null"
     )
 
     private val KEYWORD_PATTERN = "\\b(" + java.lang.String.join("|", *KEYWORDS) + ")\\b"
@@ -49,6 +57,7 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     val highlightQueue = mutableListOf<StyleSpan<Collection<String>>>()
     private val popup = Popup()
     private val label = Label()
+    private var consequence: ParseConsequence? = null
 
     init {
         popup.content.addAll(label)
@@ -62,7 +71,22 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     }
 
     override fun onAppliedHighlighting() {
-        CometJavaParser.parse(codeArea.text, this)
+        UIManager.getBottomBarController().getDataModel().setStatus("Highlighting...")
+
+        GlobalScope.launch(Dispatchers.JavaFx) {
+            GlobalScope.async(Dispatchers.Default) {
+                JavaProgramParser.parse(this@JavaEditorImpl.codeArea.text)
+
+            }.await().let {
+                consequence = it
+                it.getParseAreas().forEach {  parseArea ->
+                    this@JavaEditorImpl.codeArea.setStyle(parseArea.paragraph, parseArea.from, parseArea.to, parseArea.style)
+                }
+
+                UIManager.getBottomBarController().getDataModel().setStatus(BaseLang.getLang("bottombar.status.ready"))
+            }
+        }
+
     }
 
     override fun computeHighlighting(text: String): StyleSpans<Collection<String>> {
@@ -81,12 +105,10 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     }
 
     override fun onMouseOverTextStart(event: MouseOverTextEvent) {
-        ErrorMarker.problems.stream()
+        (consequence ?: return).getProblems().stream()
                 .filter {
-                    if (!it.location.isPresent) return@filter false
-                    val position = it.location.get().toRange().get().begin
                     val mousePosition = codeArea.offsetToPosition(event.characterIndex, TwoDimensional.Bias.Forward)
-                    return@filter position.line - 1 == mousePosition.major && position.column - 1 == mousePosition.minor
+                    return@filter it.paragraph == mousePosition.major && it.from == mousePosition.minor
                 }
                 .forEach {
                     label.text = it.message

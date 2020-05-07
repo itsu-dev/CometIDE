@@ -9,13 +9,10 @@ import dev.itsu.cometide.ui.UIManager
 import javafx.application.Application
 import javafx.stage.Stage
 
-
 class Main : Application() {
-
     override fun start(primaryStage: Stage) {
         UIManager.launch(primaryStage)
     }
-
 }
 
 fun main(args: Array<String>) {
@@ -25,7 +22,7 @@ fun main(args: Array<String>) {
     Application.launch(Main::class.java, *args)
 }
 
-private fun setUpShutdownHook() =  Runtime.getRuntime().addShutdownHook(Thread {
+private fun setUpShutdownHook() = Runtime.getRuntime().addShutdownHook(Thread {
     EventManager.callEvent(SoftwareShutdownEvent())
 })
 
