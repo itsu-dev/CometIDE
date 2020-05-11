@@ -13,7 +13,7 @@
 </p>
 
 --- 
-<img src="https://raw.githubusercontent.com/itsu-dev/CometIDE/master/CometIDE.png">
+<img src="https://raw.githubusercontent.com/itsu-dev/CometIDE/master/theme_black.png">
 
 ## Features
 - 100% JavaFx
