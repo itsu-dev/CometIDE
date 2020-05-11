@@ -1,0 +1,90 @@
+/* Created by itsu */
+
+.styled-text-area {
+    -fx-background-color: #0F111A;
+    -fx-font-size: 14;
+}
+
+.styled-text-area .text {
+    -fx-fill: #FFFFFF;
+    -fx-font-family: "Cascadia Code";
+}
+
+.styled-text-area .paragraph-box .selection {
+    -fx-fill: #3E4451;
+    -fx-text-fill: #FFFFFF;
+}
+
+.paragraph-box:has-caret {
+    -fx-background-color: #333843;
+    -fx-border-color: -fx-accent;
+    -fx-border-width: 0 0 0 3;
+}
+
+.lineno {
+    -fx-background-color: #0F111A;
+    -fx-pref-width: 44px;
+}
+
+.lineno .text {
+    -fx-fill: #43454A; /*43454A*/
+    -fx-font-family: Arial;
+    -fx-font-size: 12;
+}
+
+.caret {
+    -fx-stroke: #1E88E5;
+    -fx-stroke-width: 2px;
+}
+
+/* Markdown */
+* {
+    -mdfx-font-color: #cccccc;
+    -mdfx-border-color-1: #888;
+
+    -mdfx-bg-color-1: #ccc;
+    -mdfx-bg-color-2: #ddd;
+    -mdfx-bg-color-3: #eee;
+}
+
+.markdown-text {
+    -fx-font-family: ARIAL;
+}
+
+.markdown-italic {
+    -fx-font-style: italic;
+}
+
+.markdown-bold {
+    -fx-font-weight: bold;
+}
+
+.markdown-heading-1 {
+    -fx-padding: 14;
+    -fx-border-color: #0F111A;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-2 {
+    -fx-padding: 10;
+    -fx-border-color: #0F111A;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-3 {
+    -fx-padding: 8;
+    -fx-border-color: #0F111A;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-4 {
+    -fx-padding: 6;
+    -fx-border-color: #0F111A;
+    -fx-border-width: 0 0 1 0;
+}
+
+.markdown-heading-5 {
+    -fx-padding: 4;
+    -fx-border-color: #0F111A;
+    -fx-border-width: 0 0 1 0;
+}

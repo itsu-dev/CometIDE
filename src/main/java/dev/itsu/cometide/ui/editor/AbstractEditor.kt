@@ -8,10 +8,13 @@ import dev.itsu.cometide.ui.part.tab.TabContent
 import dev.itsu.cometide.util.IOUtils
 import javafx.application.Platform
 import javafx.concurrent.Task
+import javafx.scene.control.Label
+import javafx.scene.layout.BorderPane
 import org.fxmisc.flowless.VirtualizedScrollPane
 import org.fxmisc.richtext.LineNumberFactory
 import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.event.MouseOverTextEvent
+import org.fxmisc.richtext.model.Paragraph
 import org.fxmisc.richtext.model.StyleSpans
 import org.reactfx.Subscription
 import org.reactfx.value.Var
@@ -26,18 +29,30 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
     private val virtualizedScrollPane = VirtualizedScrollPane(codeArea)
     private val service = Executors.newSingleThreadExecutor()
     private val cleanupWhenDone: Subscription
+    private val textLabel = Label()
+
+    fun setTextLabel(text: String) {
+        textLabel.text = text
+    }
 
     init {
-        content = virtualizedScrollPane
+        content = BorderPane().also {
+            it.center = virtualizedScrollPane
+            it.bottom = textLabel
+        }
+
+        textLabel.style = "-fx-text-fill: #FFFFFF; -fx-background-color: #0F111A"
+        textLabel.prefWidth = Double.MAX_VALUE
+
         codeArea.paragraphGraphicFactory = LineNumberFactory.get(codeArea)
         codeArea.id = extension
         codeArea.mouseOverTextDelay = Duration.ofSeconds(1)
 
         cleanupWhenDone = codeArea.multiPlainChanges()
                 .successionEnds(Duration.ofMillis(500))
-                .supplyTask<StyleSpans<Collection<String>>> { this.computeHighlightingAsync() }
+                .supplyTask { this.computeHighlightingAsync() }
                 .awaitLatest(codeArea.multiPlainChanges())
-                .filterMap<StyleSpans<Collection<String>>> {
+                .filterMap {
                     if (it.isSuccess) {
                         return@filterMap Optional.of(it.get())
                     } else {
@@ -59,6 +74,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
 
         codeArea.caretPositionProperty().addListener { _, _, _ ->
             UIManager.getBottomBarController().getDataModel().setCaretPosition("${codeArea.currentParagraph + 1}:${codeArea.caretColumn + 1}")
+            onCaretPositionChanged(codeArea.currentParagraph, codeArea.caretColumn)
         }
 
         codeArea.focusedProperty().addListener { _ ->
@@ -109,6 +125,10 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
     }
 
     open fun onMouseOverTextEnd(event: MouseOverTextEvent) {
+
+    }
+
+    open fun onCaretPositionChanged(paragraph: Int, column: Int) {
 
     }
 

@@ -2,7 +2,7 @@
 	<fallbackLanguage>eng</fallbackLanguage>
 	<language>jpn</language>
 	<encoding>UTF-8</encoding>
-	<theme>dark</theme>
+	<theme>black</theme>
 	<previousProject>F:\OneDrive\Documents\GitHub\CPhone</previousProject>
 	<environmentVariables>
 		<variable key="PLUGINS_DIRECTORY_PATH" value="./data/plugins"></variable>

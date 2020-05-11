@@ -10,12 +10,16 @@ object JavaProgramParser : IProgramParser {
 
     override fun parse(text: String): ParseConsequence {
         val unit = JavaParser().parse(text)
+
         if (unit.result.isPresent) {
             if (unit.problems.size == 0) {
                 val result = unit.result.get()
                 val grammarMarker = JavaGrammarMarker()
                 result.accept(grammarMarker, "")
-                return grammarMarker.getConsequence()
+
+                val consequence = grammarMarker.getConsequence()
+                consequence.unit = unit.result.get()
+                return consequence
 
             } else {
                 val problems = mutableListOf<ParseProblem>()

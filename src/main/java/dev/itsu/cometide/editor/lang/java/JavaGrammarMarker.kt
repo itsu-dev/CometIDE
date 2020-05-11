@@ -7,11 +7,11 @@ import com.github.javaparser.ast.body.VariableDeclarator
 import com.github.javaparser.ast.expr.MethodCallExpr
 import com.github.javaparser.ast.expr.VariableDeclarationExpr
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter
-import dev.itsu.cometide.editor.IMarker
+import dev.itsu.cometide.editor.IGrammarMarker
 import dev.itsu.cometide.editor.model.ParseArea
 import dev.itsu.cometide.editor.model.ParseConsequence
 
-class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
+class JavaGrammarMarker : VoidVisitorAdapter<String>(), IGrammarMarker {
 
     private val mConsequence = ParseConsequence()
 
@@ -21,7 +21,7 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
         if (n.begin.isPresent) {
             val commonLength = n.commonType.asString().length
             val begin = n.commonType.begin.get()
-            mConsequence.addParseArea(ParseArea(begin.line - 1, begin.column - 1, begin.column + commonLength - 1, setOf("variable-type")))
+            mConsequence.parseAreas.add(ParseArea(begin.line - 1, begin.column - 1, begin.column + commonLength - 1, setOf("variable-type")))
         }
         super.visit(n, arg)
     }
@@ -30,7 +30,7 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
         if (n.name.begin.isPresent) {
             val commonLength = n.nameAsString.length
             val begin = n.name.begin.get()
-            mConsequence.addParseArea(ParseArea(begin.line - 1, begin.column - 1, begin.column + commonLength - 1, setOf("variable-name")))
+            mConsequence.parseAreas.add(ParseArea(begin.line - 1, begin.column - 1, begin.column + commonLength - 1, setOf("variable-name")))
         }
         super.visit(n, arg)
     }
@@ -39,7 +39,7 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
         if (n.begin.isPresent) {
             val begin = n.name.begin.get()
             val nameLength = n.nameAsString.length
-            mConsequence.addParseArea(ParseArea(begin.line - 1, begin.column - 1, begin.column + nameLength - 1, setOf("method-call-name")))
+            mConsequence.parseAreas.add(ParseArea(begin.line - 1, begin.column - 1, begin.column + nameLength - 1, setOf("method-call-name")))
         }
         super.visit(n, arg)
     }
@@ -51,12 +51,12 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
             val typeBegin = n.begin.get()
             val styleClass = if (n.isStatic) "variable-element-field-static" else "variable-element-field"
 
-            mConsequence.addParseArea(ParseArea(typeBegin.line - 1, (typeBegin.column + typeIndex) - 1, (typeBegin.column + typeIndex + typeLength) - 1, setOf("variable-type")))
+            mConsequence.parseAreas.add(ParseArea(typeBegin.line - 1, (typeBegin.column + typeIndex) - 1, (typeBegin.column + typeIndex + typeLength) - 1, setOf("variable-type")))
             n.variables.forEach {
                 if (it.begin.isPresent) {
                     val nameBegin = it.name.begin.get()
                     val nameLength = it.nameAsString.length
-                    mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 1, (nameBegin.column + nameLength) - 1, setOf(styleClass)))
+                    mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, (nameBegin.column + nameLength) - 1, setOf(styleClass)))
                 }
             }
         }
@@ -67,20 +67,20 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
         if (n.name.begin.isPresent) {
             val nameBegin = n.name.begin.get()
             val nameLength = n.nameAsString.length
-            mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("method-define-name")))
+            mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("method-define-name")))
         }
 
         n.parameters.forEach {
             if (it.type.begin.isPresent) {
                 val typeBegin = it.type.begin.get()
                 val typeLength = it.type.asString().length
-                mConsequence.addParseArea(ParseArea(typeBegin.line - 1, typeBegin.column - 1, typeBegin.column + typeLength - 1, setOf("method-define-variable-type")))
+                mConsequence.parseAreas.add(ParseArea(typeBegin.line - 1, typeBegin.column - 1, typeBegin.column + typeLength - 1, setOf("method-define-variable-type")))
             }
 
             if (it.name.begin.isPresent) {
                 val nameBegin = it.name.begin.get()
                 val nameLength = it.nameAsString.length
-                mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("method-define-variable-name")))
+                mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("method-define-variable-name")))
             }
         }
 
@@ -88,7 +88,7 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
             if (it.name.begin.isPresent) {
                 val nameBegin = it.name.begin.get()
                 val nameLength = it.nameAsString.length
-                mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 2, nameBegin.column + nameLength - 1, setOf("method-define-annotation-name")))
+                mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 2, nameBegin.column + nameLength - 1, setOf("method-define-annotation-name")))
             }
         }
 
@@ -99,14 +99,14 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
         if (n.name.begin.isPresent) {
             val nameBegin = n.name.begin.get()
             val nameLength = n.nameAsString.length
-            mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("class-define-name")))
+            mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("class-define-name")))
         }
 
         n.extendedTypes.forEach {
             if (n.name.begin.isPresent) {
                 val nameBegin = it.name.begin.get()
                 val nameLength = it.nameAsString.length
-                mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("class-define-extended-type")))
+                mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("class-define-extended-type")))
             }
         }
 
@@ -114,7 +114,7 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IMarker {
             if (n.name.begin.isPresent) {
                 val nameBegin = it.name.begin.get()
                 val nameLength = it.nameAsString.length
-                mConsequence.addParseArea(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("class-define-implemented-type")))
+                mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("class-define-implemented-type")))
             }
         }
         super.visit(n, arg)
