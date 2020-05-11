@@ -1,5 +1,13 @@
 package dev.itsu.cometide.ui.editor.java
 
+import com.github.javaparser.ast.Node
+import com.github.javaparser.ast.body.MethodDeclaration
+import com.github.javaparser.ast.expr.Expression
+import com.github.javaparser.ast.expr.LambdaExpr
+import com.github.javaparser.ast.nodeTypes.NodeWithBody
+import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName
+import com.github.javaparser.ast.stmt.*
+import dev.itsu.cometide.editor.lang.java.JavaKeywordMarker
 import dev.itsu.cometide.editor.lang.java.JavaProgramParser
 import dev.itsu.cometide.editor.model.ParseConsequence
 import dev.itsu.cometide.lang.BaseLang
@@ -23,38 +31,6 @@ import java.util.regex.Pattern
 
 class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, "java") {
 
-    val KEYWORDS = arrayOf(
-            "abstract", "assert", "boolean", "break", "byte",
-            "case", "catch", "char", "class", "const",
-            "continue", "default", "do", "double", "else",
-            "enum", "extends", "final", "finally", "float",
-            "for", "goto", "if", "implements", "import",
-            "instanceof", "int", "interface", "long", "native",
-            "new", "package", "private", "protected", "public",
-            "return", "short", "static", "strictfp", "super",
-            "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while", "null"
-    )
-
-    private val KEYWORD_PATTERN = "\\b(" + java.lang.String.join("|", *KEYWORDS) + ")\\b"
-    private val PAREN_PATTERN = "\\(|\\)"
-    private val BRACE_PATTERN = "\\{|\\}"
-    private val BRACKET_PATTERN = "\\[|\\]"
-    private val SEMICOLON_PATTERN = "\\;"
-    private val STRING_PATTERN = "\"([^\"\\\\]|\\\\.)*\""
-    private val COMMENT_PATTERN = "//[^\n]*" + "|" + "/\\*(.|\\R)*?\\*/"
-
-    private val PATTERN = Pattern.compile(
-            "(?<KEYWORD>" + KEYWORD_PATTERN + ")"
-                    + "|(?<PAREN>" + PAREN_PATTERN + ")"
-                    + "|(?<BRACE>" + BRACE_PATTERN + ")"
-                    + "|(?<BRACKET>" + BRACKET_PATTERN + ")"
-                    + "|(?<SEMICOLON>" + SEMICOLON_PATTERN + ")"
-                    + "|(?<STRING>" + STRING_PATTERN + ")"
-                    + "|(?<COMMENT>" + COMMENT_PATTERN + ")"
-    )
-
-    val highlightQueue = mutableListOf<StyleSpan<Collection<String>>>()
     private val popup = Popup()
     private val label = Label()
     private var consequence: ParseConsequence? = null
@@ -62,7 +38,7 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     init {
         popup.content.addAll(label)
         popup.width = 200.0
-        label.style = "-fx-background-color: #37474F"
+        label.style = "-fx-background-color: #0F111A"
         label.isWrapText = true
     }
 
@@ -79,7 +55,7 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
 
             }.await().let {
                 consequence = it
-                it.getParseAreas().forEach {  parseArea ->
+                it.parseAreas.forEach { parseArea ->
                     this@JavaEditorImpl.codeArea.setStyle(parseArea.paragraph, parseArea.from, parseArea.to, parseArea.style)
                 }
 
@@ -90,22 +66,11 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     }
 
     override fun computeHighlighting(text: String): StyleSpans<Collection<String>> {
-        val matcher = PATTERN.matcher(text)
-        var lastKwEnd = 0
-        val spansBuilder = StyleSpansBuilder<Collection<String>>()
-        spansBuilder.addAll(highlightQueue)
-        while (matcher.find()) {
-            val styleClass = (if (matcher.group("KEYWORD") != null) "keyword" else if (matcher.group("PAREN") != null) "paren" else if (matcher.group("BRACE") != null) "brace" else if (matcher.group("BRACKET") != null) "bracket" else if (matcher.group("SEMICOLON") != null) "semicolon" else if (matcher.group("STRING") != null) "string" else if (matcher.group("COMMENT") != null) "comment" else null)!!
-            spansBuilder.add(emptyList(), matcher.start() - lastKwEnd)
-            spansBuilder.add(setOf(styleClass), matcher.end() - matcher.start())
-            lastKwEnd = matcher.end()
-        }
-        spansBuilder.add(emptyList(), text.length - lastKwEnd)
-        return spansBuilder.create()
+        return JavaKeywordMarker.mark(text)
     }
 
     override fun onMouseOverTextStart(event: MouseOverTextEvent) {
-        (consequence ?: return).getProblems().stream()
+        (consequence ?: return).problems.stream()
                 .filter {
                     val mousePosition = codeArea.offsetToPosition(event.characterIndex, TwoDimensional.Bias.Forward)
                     return@filter it.paragraph == mousePosition.major && it.from == mousePosition.minor
@@ -114,6 +79,75 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
                     label.text = it.message
                     popup.show(codeArea, event.screenPosition.x, event.screenPosition.y + 10)
                 }
+    }
+
+    override fun onCaretPositionChanged(paragraph: Int, column: Int) {
+        consequence?.unit ?: return
+
+        GlobalScope.launch(Dispatchers.Default) {
+            var currentBlock: Statement? = null
+            consequence!!.unit!!.findAll(Statement::class.java).forEach {
+                if (it.range.isPresent) {
+                    if (paragraph + 1 in it.begin.get().line until it.end.get().line) {
+                        currentBlock = it
+                        return@forEach
+                    }
+                }
+            }
+
+            currentBlock ?: return@launch
+
+            var text = ""
+
+            fun getBlockName(node: Node): String? {
+                if (node is Statement) {
+                    return when {
+                        node.isDoStmt -> "do {...}"
+                        node.isForStmt -> "for {...}"
+                        node.isTryStmt -> "try {...}"
+                        node.isWhileStmt -> "while {...}"
+                        node.isIfStmt -> "if {...}"
+                        node.isForEachStmt -> "forEach {...}"
+                        node.isSwitchStmt -> "switch {...}"
+                        node.isEmptyStmt -> "{...}"
+                        else -> null
+                    }
+
+                } else if (node is Expression) {
+                    return when {
+                        node.isObjectCreationExpr -> "(anonymous())"
+                        node.isLambdaExpr -> "lambda {...}"
+                        else -> null
+                    }
+
+                } else {
+                    return when (node) {
+                        is CatchClause -> "catch {...}"
+                        is SwitchEntry -> "case {...}"
+                        else -> "unknown (${node.javaClass.simpleName})"
+                    }
+                }
+            }
+
+            fun process(node: Node) {
+                if (node.parentNode.isPresent) {
+                    if (getBlockName(node) != null) {
+                        text = " > " + (if (node is NodeWithSimpleName<*>) ((node as NodeWithSimpleName<*>).nameAsString +
+                                if (node is MethodDeclaration) "()" else "") else getBlockName(node)) + text
+                    }
+                    process(node.parentNode.get())
+                }
+            }
+
+            if (currentBlock != null) {
+                process(currentBlock as Node)
+                println(text.removePrefix(" > "))
+
+                GlobalScope.launch(Dispatchers.JavaFx) {
+                    setTextLabel(text.removePrefix(" > "))
+                }
+            }
+        }
     }
 
     override fun onMouseOverTextEnd(event: MouseOverTextEvent) {
