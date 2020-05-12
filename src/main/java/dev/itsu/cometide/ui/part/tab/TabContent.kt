@@ -12,7 +12,12 @@ open class TabContent(val treeItemData: TreeItemData) : Tab() {
         this.isClosable = true
 
         setOnClosed {
-            ProjectDao.project.openingFiles.remove(treeItemData.path)
+            val map = linkedMapOf<String, Int>()
+            ProjectDao.project.previousSession.tabs.forEachIndexed { index, tab ->
+                map.put(tab.filePath, index)
+            }
+
+            ProjectDao.project.previousSession.tabs.removeAt(map[treeItemData.path]!!)
         }
     }
 }

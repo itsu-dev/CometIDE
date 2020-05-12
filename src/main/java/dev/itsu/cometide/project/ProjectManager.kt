@@ -20,12 +20,12 @@ object ProjectManager {
         GlobalScope.launch(Dispatchers.JavaFx) {
             UIManager.getBaseController().getDataModel().setProjectRoot(projectRoot)
             ProjectDao.reload(projectRoot)
-            ProjectDao.project.openingFiles.forEach {
-                val file = File(it)
+            ProjectDao.project.previousSession.tabs.forEach {
+                val file = File(it.filePath)
                 if (!file.exists()) return@forEach
                 openFile(TreeItemData(file.name, file.absolutePath, false, TreeItemData.Type.ITEM))
             }
-            UIManager.getBaseController().setTab(ProjectDao.project.openingTab)
+            UIManager.getBaseController().setTab(ProjectDao.project.previousSession.tabIndex)
             UIManager.getBottomBarController().getDataModel().setInformation("")
             UIManager.getBottomBarController().setLoading(false)
         }

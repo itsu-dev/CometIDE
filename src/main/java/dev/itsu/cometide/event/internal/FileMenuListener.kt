@@ -16,7 +16,7 @@ class FileMenuListener : EventListener {
     fun onMenuClicked(event: MenuItemClickedEvent) {
         when(event.id) {
             "menubar.file.new.directory" -> {
-                var file = File(ProjectDao.project.selectingFile)
+                var file = File(ProjectDao.project.rootDir) //TODO rootDir -> Selecting file
                 if (!file.exists()) return
                 if (!file.isDirectory) file = file.parentFile
                 if (!file.exists()) return

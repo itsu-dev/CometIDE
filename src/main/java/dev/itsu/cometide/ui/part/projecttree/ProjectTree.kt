@@ -25,22 +25,6 @@ class ProjectTree : AnchorPane() {
         }
         treeView.cellFactory = ProjectTreeCellFactory()
         children.add(treeView)
-        /*
-        setOnMouseClicked {
-            when (it.button) {
-                MouseButton.SECONDARY -> {
-                    presenter.onRightClick(it, selectionModel.selectedItem)
-                    return@setOnMouseClicked
-                }
-            }
-
-            if (it.clickCount == 2) {
-                presenter.onDoubleClick(it, selectionModel.selectedItem)
-                EventManager.getInstance().callEvent(ProjectTreeItemDoubleClickedEvent(it, selectionModel.selectedItem))
-            }
-        }
-
-         */
     }
 
     fun reload(path: String) {

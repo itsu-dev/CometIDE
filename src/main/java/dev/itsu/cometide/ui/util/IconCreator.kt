@@ -1,5 +1,6 @@
 package dev.itsu.cometide.ui.util
 
+import dev.itsu.cometide.dao.ProjectDao
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.plugin.PluginManager
 import javafx.scene.image.Image
@@ -11,6 +12,7 @@ object IconCreator {
     val ICON_DIRECTORY_PROJECT = createImage("img/icon/icon_directory_project.png")
     val ICON_DIRECTORY_SRC = createImage("img/icon/icon_directory_src.png")
     val ICON_DIRECTORY_RESOURCE = createImage("img/icon/icon_directory_resource.png")
+    val ICON_DIRECTORY_JAVA = createImage("img/icon/icon_directory_java.png")
     val ICON_DIRECTORY_PHOTO = createImage("img/icon/icon_directory_photo.png")
     val ICON_NEXT = createImage("img/icon/icon_next.png")
     val ICON_CODE = createImage("img/icon/icon_code.png")
@@ -30,9 +32,13 @@ object IconCreator {
                         "src" -> ICON_DIRECTORY_SRC
                         "resources" -> ICON_DIRECTORY_RESOURCE
                         "img", "images", "image", "icon", "icons" -> ICON_DIRECTORY_PHOTO
-                        else -> ICON_DIRECTORY
+                        else -> when {
+                            file.absolutePath == "${ProjectDao.project.javaProject.sourceDir}${File.separator}main${File.separator}java" -> ICON_DIRECTORY_JAVA
+                            else -> ICON_DIRECTORY
+                        }
                     }
                 }
+
                 TreeItemData.Type.ITEM -> {
                     icon = when(file.extension.toLowerCase()) {
                         "java", "json", "properties", "md", "xml", "html", "php", "js" -> ICON_CODE

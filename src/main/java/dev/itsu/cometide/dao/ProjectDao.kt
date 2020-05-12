@@ -1,11 +1,8 @@
 package dev.itsu.cometide.dao
 
-import dev.itsu.cometide.project.Project
-import org.dom4j.Document
-import org.dom4j.io.SAXReader
-import org.redundent.kotlin.xml.PrintOptions
-import org.redundent.kotlin.xml.xml
+import dev.itsu.cometide.dao.model.Project
 import java.io.File
+import javax.xml.bind.JAXB
 
 object ProjectDao : XMLDao() {
 
@@ -17,43 +14,16 @@ object ProjectDao : XMLDao() {
     }
 
     override fun store() {
-        val projectData = xml("project") {
-            "timeStamp" { -System.currentTimeMillis().toString() }
-            "previousSession" {
-                "rootDir" { -project.root }
-                "name" { -project.name }
-                "tabIndex" { -project.openingTab.toString() }
-                "openingFiles" {
-                    project.openingFiles.forEach {
-                        "file" { attribute("path", it) }
-                    }
-                }
-            }
-        }
-        store(projectData.toString(PrintOptions(true, true, false)))
+        JAXB.marshal(project, getFilePath())
     }
 
     override fun load() {
         val file = File(getFilePath())
-        val document: Document = when (file.exists()) {
-            true -> SAXReader().read(file)
-            false -> SAXReader().read(ExtensionCorrespondsDao::class.java.classLoader.getResource(getFilePath().substring(1)))
+
+        this.project = when(file.exists()) {
+            true -> JAXB.unmarshal(file, Project::class.java)
+            false -> Project()
         }
-
-        val nodes = document.selectNodes("/project/previousSession/openingFiles/file")
-        val files = mutableListOf<String>()
-        nodes.forEach {
-            files.add(it.stringValue)
-        }
-
-        this.project = Project(
-                document.selectSingleNode("/project/previousSession/rootDir").stringValue,
-                document.selectSingleNode("/project/previousSession/name").stringValue,
-                files,
-                "",
-                document.selectSingleNode("/project/previousSession/tabIndex").stringValue.toInt()
-        )
-
     }
 
     override fun getFilePath(): String {

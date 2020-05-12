@@ -59,7 +59,7 @@ class BaseController {
         mainTabPane.selectionModel.selectedItemProperty().addListener {_, _, newValue ->
             if (newValue is TabContent) {
                 pathHolder.reload(newValue.treeItemData)
-                UIManager.setTitle("${ProjectDao.project.name} [${ProjectDao.project.root}] - ${TextUtils.shortenProjectPath(newValue.treeItemData.path)} - CometIDE")
+                UIManager.setTitle("${ProjectDao.project.projectName} [${ProjectDao.project.rootDir}] - ${TextUtils.shortenProjectPath(newValue.treeItemData.path)} - CometIDE")
                 EventManager.callEvent(TabPaneTabSelectedEvent(newValue.treeItemData, mainTabPane.selectionModel.selectedIndex))
             }
         }

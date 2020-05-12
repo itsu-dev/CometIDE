@@ -57,7 +57,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
                         return@filterMap Optional.of(it.get())
                     } else {
                         it.failure.printStackTrace()
-                        return@filterMap Optional.empty()
+                        return@filterMap Optional.empty<StyleSpans<Collection<String>>>()
                     }
                 }
                 .subscribe { highlighting: StyleSpans<Collection<String>> -> this.applyHighlighting(highlighting) }

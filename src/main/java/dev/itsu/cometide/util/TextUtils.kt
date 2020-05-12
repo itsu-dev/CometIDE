@@ -6,7 +6,7 @@ import java.io.File
 object TextUtils {
 
     fun shortenProjectPath(path: String): String {
-        return "...\\${File(path).toRelativeString(File(ProjectDao.project.root))}"
+        return "...\\${File(path).toRelativeString(File(ProjectDao.project.rootDir))}"
     }
 
 }

@@ -17,7 +17,7 @@ class PathHolder : HBox() {
         children.clear()
 
         var file = File(treeItemData.path)
-        val projectName = File(ProjectDao.project.root).name
+        val projectName = File(ProjectDao.project.rootDir).name
 
         while (true) {
             if (file.name == projectName) {
