@@ -57,7 +57,7 @@
     <orderEntry type="library" name="Maven: org.redundent:kotlin-xml-builder:1.6.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.apache.commons:commons-lang3:3.5" level="project" />
     <orderEntry type="library" name="Maven: jaxen:jaxen:1.1.6" level="project" />
-    <orderEntry type="library" name="Maven: org.dom4j:dom4j:2.1.1" level="project" />
+    <orderEntry type="library" name="Maven: org.dom4j:dom4j:2.1.3" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.8.6" level="project" />
     <orderEntry type="library" name="Maven: org.fxmisc.richtext:richtextfx:1.0.0-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.reactfx:reactfx:2.0-M5" level="project" />

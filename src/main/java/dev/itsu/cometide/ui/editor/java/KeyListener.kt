@@ -1,5 +1,8 @@
 package dev.itsu.cometide.ui.editor.java
 
+import com.github.javaparser.JavaParser
+import com.github.javaparser.ast.CompilationUnit
+import com.github.javaparser.printer.PrettyPrinterConfiguration
 import javafx.scene.input.KeyCode
 import javafx.scene.input.KeyEvent
 
@@ -11,12 +14,16 @@ class KeyListener(private val editor: JavaEditorImpl) {
     }
 
     fun onKeyPressed(event: KeyEvent) {
-        if (event.isControlDown) {
-            onKeyPressedWithCtrl(event)
+        if (event.isControlDown && event.isAltDown) {
+            onKeyPressedWithCtrlAndAlt(event)
         }
 
         if (event.code == KeyCode.ENTER) {
             onEnterPressed()
+        }
+
+        if (event.code == KeyCode.BACK_SPACE) {
+            onBackspacePressed()
         }
     }
 
@@ -69,9 +76,34 @@ class KeyListener(private val editor: JavaEditorImpl) {
         return count
     }
 
-    private fun onKeyPressedWithCtrl(event: KeyEvent) {
-        when (event.code) {
+    private fun onBackspacePressed() {
+        val current = editor.codeArea.paragraphs[editor.codeArea.currentParagraph] ?: return
+        if (current.text.isEmpty()) return
 
+        if (current.text.replace(" ", "").isEmpty()) {
+            val indentCount = getIndentCount(current.text)
+            editor.codeArea.replaceText(
+                    editor.codeArea.currentParagraph,
+                    editor.codeArea.caretColumn - indentCount,
+                    editor.codeArea.currentParagraph,
+                    editor.codeArea.caretColumn,
+                    ""
+            )
+            editor.codeArea.moveTo(editor.codeArea.caretPosition - 1)
+            editor.codeArea.deleteNextChar()
+        }
+    }
+
+    private fun onKeyPressedWithCtrlAndAlt(event: KeyEvent) {
+        when (event.code) {
+           KeyCode.L -> {
+               val conf = PrettyPrinterConfiguration()
+               conf.indentSize = INDENT_COUNT
+               conf.indentType = PrettyPrinterConfiguration.IndentType.SPACES
+               conf.isPrintComments = true
+               conf.isPrintJavadoc = true
+               editor.codeArea.replaceText(JavaParser().parse(editor.text).result.get().toString(conf))
+           }
         }
     }
 
