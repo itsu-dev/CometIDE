@@ -34,12 +34,14 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     private val popup = Popup()
     private val label = Label()
     private var consequence: ParseConsequence? = null
+    private val keyListener = KeyListener(this)
 
     init {
         popup.content.addAll(label)
         popup.width = 200.0
         label.style = "-fx-background-color: #0F111A"
         label.isWrapText = true
+        codeArea.setOnKeyPressed { keyListener.onKeyPressed(it) }
     }
 
     override fun setUp(codeArea: StyleClassedTextArea) {

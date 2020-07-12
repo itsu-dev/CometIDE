@@ -8,7 +8,7 @@
 }
 
 #java .paren {
-    -fx-fill: #FFB74D;
+    -fx-fill: #89DDFF;
     -fx-font-weight: bold;
 }
 
@@ -18,7 +18,7 @@
 }
 
 #java .brace {
-    -fx-fill: #29B6F6;
+    -fx-fill: #89DDFF;
     -fx-font-weight: bold;
 }
 
@@ -40,11 +40,11 @@
 }
 
 #java .variable-element-field {
-    -fx-fill: #E06C75;
+    -fx-fill: #F78C6C;
 }
 
 #java .variable-element-field-static {
-    -fx-fill: #E06C75;
+    -fx-fill: #F78C6C;
     -fx-font-weight: bold;
 }
 
@@ -61,7 +61,7 @@
 }
 
 #java .method-define-variable-name {
-
+    -fx-fill: #F78C6C;
 }
 
 #java .method-define-annotation-name {
@@ -81,7 +81,24 @@
     -fx-font-style: italic;
 }
 
+#java .constructor-define-name {
+    -fx-fill: #61AEEF;
+}
+
+#java .constructor-define-variable-type {
+    -fx-fill: #E5C17C;
+}
+
+#java .constructor-define-variable-name {
+    -fx-fill: #F78C6C;
+}
+
+#java .constructor-define-annotation-name {
+    -fx-fill: #C979DD;
+}
+
 #java .problem {
     -fx-fill: #C62828;
+    -rtfx-underline-color: #C62828;
     -rtfx-underline-width: 2;
 }

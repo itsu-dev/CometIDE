@@ -1,9 +1,6 @@
 package dev.itsu.cometide.editor.lang.java
 
-import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration
-import com.github.javaparser.ast.body.FieldDeclaration
-import com.github.javaparser.ast.body.MethodDeclaration
-import com.github.javaparser.ast.body.VariableDeclarator
+import com.github.javaparser.ast.body.*
 import com.github.javaparser.ast.expr.MethodCallExpr
 import com.github.javaparser.ast.expr.VariableDeclarationExpr
 import com.github.javaparser.ast.visitor.VoidVisitorAdapter
@@ -89,6 +86,38 @@ class JavaGrammarMarker : VoidVisitorAdapter<String>(), IGrammarMarker {
                 val nameBegin = it.name.begin.get()
                 val nameLength = it.nameAsString.length
                 mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 2, nameBegin.column + nameLength - 1, setOf("method-define-annotation-name")))
+            }
+        }
+
+        super.visit(n, arg)
+    }
+
+    override fun visit(n: ConstructorDeclaration, arg: String) {
+        if (n.begin.isPresent) {
+            val begin = n.name.begin.get()
+            val nameLength = n.nameAsString.length
+            mConsequence.parseAreas.add(ParseArea(begin.line - 1, begin.column - 1, begin.column + nameLength - 1, setOf("constructor-define-name")))
+        }
+
+        n.parameters.forEach {
+            if (it.type.begin.isPresent) {
+                val typeBegin = it.type.begin.get()
+                val typeLength = it.type.asString().length
+                mConsequence.parseAreas.add(ParseArea(typeBegin.line - 1, typeBegin.column - 1, typeBegin.column + typeLength - 1, setOf("constructor-define-variable-type")))
+            }
+
+            if (it.name.begin.isPresent) {
+                val nameBegin = it.name.begin.get()
+                val nameLength = it.nameAsString.length
+                mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 1, nameBegin.column + nameLength - 1, setOf("constructor-define-variable-name")))
+            }
+        }
+
+        n.annotations.forEach {
+            if (it.name.begin.isPresent) {
+                val nameBegin = it.name.begin.get()
+                val nameLength = it.nameAsString.length
+                mConsequence.parseAreas.add(ParseArea(nameBegin.line - 1, nameBegin.column - 2, nameBegin.column + nameLength - 1, setOf("constructor-define-annotation-name")))
             }
         }
 
