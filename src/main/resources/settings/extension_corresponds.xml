@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <extensionCorresponds>
     <extension name="java" class="dev.itsu.cometide.ui.editor.java.JavaEditorImpl" />
+    <extension name="json" class="dev.itsu.cometide.ui.editor.json.JsonEditorImpl" />
     <extension name="txt" class="dev.itsu.cometide.ui.editor.text.TextEditorImpl" />
     <extension name="jpn,png,jpeg" class="dev.itsu.cometide.ui.contentbase.tabcontent.photograph.PhotoViewer" />
 </extensionCorresponds>

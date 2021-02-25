@@ -107,7 +107,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
         return task
     }
 
-    fun applyHighlighting(highlighting: StyleSpans<Collection<String>>) {
+    private fun applyHighlighting(highlighting: StyleSpans<Collection<String>>) {
         codeArea.setStyleSpans(0, highlighting)
         onAppliedHighlighting()
     }
