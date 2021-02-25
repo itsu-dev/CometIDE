@@ -18,7 +18,7 @@ object JavaKeywordMarker : IKeywordMarker {
             "new", "package", "private", "protected", "public",
             "return", "short", "static", "strictfp", "super",
             "switch", "synchronized", "this", "throw", "throws",
-            "transient", "try", "void", "volatile", "while", "null"
+            "transient", "try", "void", "volatile", "while", "null", "true", "false"
     )
 
     private val KEYWORD_PATTERN = "\\b(" + java.lang.String.join("|", *KEYWORDS) + ")\\b"

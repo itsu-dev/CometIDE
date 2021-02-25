@@ -30,6 +30,7 @@ abstract class AbstractEditor(treeItemData: TreeItemData, extension: String) : T
     private val service = Executors.newSingleThreadExecutor()
     private val cleanupWhenDone: Subscription
     private val textLabel = Label()
+    private var zoomLevel = 1.0
 
     fun setTextLabel(text: String) {
         textLabel.text = text

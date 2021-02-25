@@ -3,8 +3,6 @@ package dev.itsu.cometide.ui.editor.java
 import com.github.javaparser.ast.Node
 import com.github.javaparser.ast.body.MethodDeclaration
 import com.github.javaparser.ast.expr.Expression
-import com.github.javaparser.ast.expr.LambdaExpr
-import com.github.javaparser.ast.nodeTypes.NodeWithBody
 import com.github.javaparser.ast.nodeTypes.NodeWithSimpleName
 import com.github.javaparser.ast.stmt.*
 import dev.itsu.cometide.editor.lang.java.JavaKeywordMarker
@@ -23,18 +21,24 @@ import kotlinx.coroutines.javafx.JavaFx
 import kotlinx.coroutines.launch
 import org.fxmisc.richtext.StyleClassedTextArea
 import org.fxmisc.richtext.event.MouseOverTextEvent
-import org.fxmisc.richtext.model.StyleSpan
 import org.fxmisc.richtext.model.StyleSpans
-import org.fxmisc.richtext.model.StyleSpansBuilder
 import org.fxmisc.richtext.model.TwoDimensional
-import java.util.regex.Pattern
+import java.lang.IndexOutOfBoundsException
 
 class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, "java") {
 
     private val popup = Popup()
     private val label = Label()
     private var consequence: ParseConsequence? = null
-    private val keyListener = KeyListener(this)
+    private val keyListener = JavaEditorKeyListener(this)
+
+    companion object {
+        lateinit var INDENT: String
+        const val INDENT_TEXT = " "
+        const val INDENT_COUNT = 4
+        const val SMART_INDENT_REMOVAL_ENABLED = true
+        const val AUTO_INDENT_ENABLED = true
+    }
 
     init {
         popup.content.addAll(label)
@@ -42,6 +46,11 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
         label.style = "-fx-background-color: #0F111A"
         label.isWrapText = true
         codeArea.setOnKeyPressed { keyListener.onKeyPressed(it) }
+
+        INDENT = ""
+        for (i in 0 until INDENT_COUNT) {
+            INDENT += INDENT_TEXT
+        }
     }
 
     override fun setUp(codeArea: StyleClassedTextArea) {
@@ -58,7 +67,9 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
             }.await().let {
                 consequence = it
                 it.parseAreas.forEach { parseArea ->
-                    this@JavaEditorImpl.codeArea.setStyle(parseArea.paragraph, parseArea.from, parseArea.to, parseArea.style)
+                    try {
+                        this@JavaEditorImpl.codeArea.setStyle(parseArea.paragraph, parseArea.from, parseArea.to, parseArea.style)
+                    } catch (e: IndexOutOfBoundsException) {}
                 }
 
                 UIManager.getBottomBarController().getDataModel().setStatus(BaseLang.getLang("bottombar.status.ready"))
@@ -143,8 +154,8 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
 
             if (currentBlock != null) {
                 process(currentBlock as Node)
-                println(text.removePrefix(" > "))
 
+                //println(text.removePrefix(" > "))
                 GlobalScope.launch(Dispatchers.JavaFx) {
                     setTextLabel(text.removePrefix(" > "))
                 }
@@ -155,4 +166,80 @@ class JavaEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
     override fun onMouseOverTextEnd(event: MouseOverTextEvent) {
         popup.hide()
     }
+
+    fun doIndent() {
+        if (!SMART_INDENT_REMOVAL_ENABLED) return
+
+        var i = codeArea.currentParagraph
+
+        var text = ""
+        while (i >= 0) {
+            val previousParagraph = codeArea.paragraphs[i]
+            if (previousParagraph.text.isNotEmpty()) {
+                text = previousParagraph.text
+                break
+            }
+            i--
+        }
+
+        var indentCount = getIndentCount(text)
+
+        if (text.endsWith("}")) {
+            indentCount -= INDENT_COUNT
+            if (indentCount < 0) indentCount = 0
+
+        } else if (text.endsWith("{")) {
+            indentCount += INDENT_COUNT
+        }
+
+        var indent = ""
+        for (j in 0 until indentCount) {
+            indent += INDENT_TEXT
+        }
+
+        val current = codeArea.paragraphs[codeArea.currentParagraph]
+        if (current.text.isEmpty()) codeArea.insertText(codeArea.caretPosition, indent)
+
+        if  (text.endsWith("{")) {
+            var additional = "\n"
+            for (j in 0 until indentCount - INDENT_COUNT) {
+                additional += INDENT_TEXT
+            }
+            additional += "}"
+            codeArea.insertText(codeArea.caretPosition, additional)
+            codeArea.moveTo(
+                    codeArea.currentParagraph - 1,
+                    codeArea.getParagraphLength(codeArea.currentParagraph - 1)
+            )
+        }
+    }
+
+    private fun getIndentCount(text: String): Int {
+        var count = 0
+        text.forEach {
+            if (it.toString() == INDENT_TEXT) count++
+            else return count
+        }
+        return count
+    }
+
+    fun doSmartIndentRemoval() {
+        if (!AUTO_INDENT_ENABLED) return
+
+        val current = codeArea.paragraphs[codeArea.currentParagraph] ?: return
+        val texts = codeArea.paragraphs[codeArea.currentParagraph].substring(0, codeArea.caretPosition)
+        if (texts.replace(INDENT_TEXT, "").count() == 0 && (texts.count() % INDENT_COUNT != 0)) {
+            val indentCount = getIndentCount(current.text)
+            codeArea.replaceText(
+                    codeArea.currentParagraph,
+                    codeArea.caretColumn - indentCount,
+                    codeArea.currentParagraph,
+                    codeArea.caretColumn,
+                    ""
+            )
+            codeArea.moveTo(codeArea.caretPosition - 1)
+            codeArea.deleteNextChar()
+        }
+    }
+
 }
