@@ -9,6 +9,7 @@ import dev.itsu.cometide.event.events.plugin.PluginLoadedEvent
 import dev.itsu.cometide.event.events.ui.MainStageClosedEvent
 import dev.itsu.cometide.event.events.ui.UICreatedEvent
 import dev.itsu.cometide.project.ProjectManager
+import java.io.File
 import kotlin.system.exitProcess
 
 class UIListener : EventListener {
@@ -16,7 +17,7 @@ class UIListener : EventListener {
     @EventHandler
     fun onClose(event: MainStageClosedEvent) {
         ExtensionCorrespondsDao.store()
-        ProjectDao.store()
+        if (File(SettingsDao.PREVIOUS_PROJECT).exists()) ProjectDao.store()
         SettingsDao.store()
 
         exitProcess(0)

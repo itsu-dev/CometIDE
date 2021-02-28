@@ -2,6 +2,7 @@ package dev.itsu.cometide.project
 
 import dev.itsu.cometide.dao.ExtensionCorrespondsDao
 import dev.itsu.cometide.dao.ProjectDao
+import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.UIManager
 import dev.itsu.cometide.ui.part.tab.TabContent
@@ -16,6 +17,14 @@ object ProjectManager {
     fun openProject(projectRoot: String) {
         UIManager.getBottomBarController().getDataModel().setInformation("Loading Project...")
         UIManager.getBottomBarController().setLoading(true)
+
+        if (!File(projectRoot).exists()) {
+            UIManager.getBottomBarController().getDataModel().setStatus("Failed to load project: $projectRoot")
+            UIManager.getBottomBarController().getDataModel().setInformation("")
+            UIManager.getBottomBarController().setLoading(false)
+            SettingsDao.resetProject()
+            return
+        }
 
         GlobalScope.launch(Dispatchers.JavaFx) {
             UIManager.getBaseController().getDataModel().setProjectRoot(projectRoot)

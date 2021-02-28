@@ -20,7 +20,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="CometIDE" target="10" />
+      <module name="CometIDE" target="15" />
       <module name="CometIDECore" target="1.8" />
       <module name="CometUILib" target="1.8" />
     </bytecodeTargetLevel>

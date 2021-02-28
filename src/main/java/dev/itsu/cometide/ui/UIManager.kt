@@ -1,14 +1,11 @@
 package dev.itsu.cometide.ui
 
 import com.jfoenix.controls.JFXDecorator
-import com.jfoenix.svg.SVGGlyph
-import com.jfoenix.svg.SVGGlyphLoader
 import dev.itsu.cometide.dao.SettingsDao
 import dev.itsu.cometide.event.EventManager
 import dev.itsu.cometide.event.events.ui.MainStageClosedEvent
 import dev.itsu.cometide.event.events.ui.UICreatedEvent
 import dev.itsu.cometide.model.ui.BaseDataModel
-import dev.itsu.cometide.model.ui.BottomBarDataModel
 import dev.itsu.cometide.ui.controller.BaseController
 import dev.itsu.cometide.ui.controller.BottomBarController
 import dev.itsu.cometide.ui.util.IconCreator
@@ -17,8 +14,6 @@ import javafx.event.EventHandler
 import javafx.fxml.FXMLLoader
 import javafx.scene.Scene
 import javafx.scene.layout.AnchorPane
-import javafx.scene.layout.BorderPane
-import javafx.scene.layout.StackPane
 import javafx.scene.paint.Color
 import javafx.stage.Stage
 import java.io.File

@@ -2,6 +2,7 @@ package dev.itsu.cometide.ui.editor.json
 
 import com.fasterxml.jackson.core.JsonFactory
 import com.fasterxml.jackson.core.JsonToken
+import com.fasterxml.jackson.core.util.JsonParserDelegate
 import dev.itsu.cometide.editor.lang.java.JavaKeywordMarker
 import dev.itsu.cometide.model.TreeItemData
 import dev.itsu.cometide.ui.editor.AbstractEditor
@@ -22,12 +23,12 @@ class JsonEditorImpl(treeItemData: TreeItemData) : AbstractEditor(treeItemData, 
         var offset = 0
         val parser = JsonFactory().createParser(codeArea.text)
         while(parser.nextToken() != JsonToken.END_OBJECT) {
+            //println("" + parser.textOffset + ":" + parser.currentName + ":" + parser.currentToken)
             when (parser.currentToken) {
                 JsonToken.FIELD_NAME -> {
-                    println(parser.textOffset)
                     codeArea.setStyle(
-                            offset,
-                            parser.currentName.length + offset,
+                            parser.textOffset,
+                            parser.currentName.length + parser.textOffset,
                             setOf("-fx-fill: #98C379;")
                     )
                 }

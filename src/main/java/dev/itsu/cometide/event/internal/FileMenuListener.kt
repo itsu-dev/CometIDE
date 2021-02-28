@@ -27,6 +27,7 @@ class FileMenuListener : EventListener {
             "actionbar.screenshot" -> {
                 val image = (EditorData.currentEditor ?: return).codeArea.snapshot(SnapshotParameters(), null)
                 ImageIO.write(SwingFXUtils.fromFXImage(image, null), "png", File("C:\\Users\\itsu\\Desktop\\${System.currentTimeMillis()}.png"))
+
             }
         }
     }

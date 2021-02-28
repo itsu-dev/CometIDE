@@ -65,4 +65,8 @@ object SettingsDao : XMLDao() {
         return "./data/settings/settings.xml"
     }
 
+    fun resetProject() {
+        PREVIOUS_PROJECT = ""
+        store()
+    }
 }

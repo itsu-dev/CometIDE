@@ -21,6 +21,6 @@ class MarkdownEditor(val markdownEditorImpl: MarkdownEditorImpl, treeItemData: T
     }
 
     override fun onAppliedHighlighting() {
-        markdownEditorImpl.onHighlighting()
+        //markdownEditorImpl.onHighlighting()
     }
 }

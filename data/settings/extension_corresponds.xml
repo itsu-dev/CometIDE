@@ -1,8 +1,8 @@
 <extensionCorresponds>
 	<extension name="java" class="dev.itsu.cometide.ui.editor.java.JavaEditorImpl"></extension>
-	<extension name="json" class="dev.itsu.cometide.ui.editor.json.JsonEditorImpl"></extension>
-	<extension name="txt" class="dev.itsu.cometide.ui.editor.text.TextEditorImpl"></extension>
+	<extension name="json" class="dev.itsu.cometide.ui.editor.common.CommonCodeEditor"></extension>
+	<extension name="txt" class="dev.itsu.cometide.ui.editor.common.CommonCodeEditor"></extension>
 	<extension name="jpn,png,jpeg" class="dev.itsu.cometide.ui.editor.image.ImageViewerImpl"></extension>
-	<extension name="xml" class="dev.itsu.cometide.ui.editor.xml.XMLEditorImpl"></extension>
+	<extension name="xml" class="dev.itsu.cometide.ui.editor.common.CommonCodeEditor"></extension>
 	<extension name="md" class="dev.itsu.cometide.ui.editor.markdown.MarkdownEditorImpl"></extension>
 </extensionCorresponds>

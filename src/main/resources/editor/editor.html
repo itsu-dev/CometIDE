@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>Ace Editor sample</title>
+    <style lang="text/css">
+        body, html, #editor {
+            height: 100%;
+            width: 100%;
+        }
+        body, html {
+            background-color: #0C0E15;
+        }
+    </style>
+</head>
+<body>
+<div id="editor"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ace.js"></script>
+<script src="https://cloud9ide.github.io/emmet-core/emmet.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.2.0/ext-emmet.js"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.$blockScrolling = Infinity;
+    editor.setOptions({
+        enableEmmet: true,
+        fontSize: "11pt"
+    });
+    editor.setTheme("%EDITOR_THEME%");
+    editor.getSession().setMode("%EDITOR_MODE%");
+</script>
+</body>
+</html>
