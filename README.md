@@ -36,6 +36,7 @@
 - Javaparser  
 - RichTextFX  
 - kotlin-xml-builder  
+- Ace Editor
   
 ## Download
 Sorry, this production is now under development, so please wait for the release.
